@@ -46,7 +46,9 @@ Limiting Factors
 
 If you want a no fuss experience I'd sugest that you use any Unity from the 2021.2 release forward as it added official unity support for dotnet standard 2.1 and with it support for Spans.
 
-If you don't mind a bit of extra work you can use SERGEnt with Unity versions going back to 2020.3 but if you do so you will need to import an extra set of libraries that will add legacy Spans to unity. (The library set will be provided as an optional part of Unity releases until at least the end of 2022)
+You can technically use SRGEnt with Unity versions going back to 2020.3 but it requires some extra dll wizardry which is beyond the scope of my projects.
+I will try and add extra packages with the support for the previous Unity versions in future releases if there will be enough interest (let me know on discord).
+If you can't wait for the next release and need it working now, hit me up on discord and I will try to help you out with the setup as it depends on which Unity version the project is built on.
 
 **Adding to your project**
 
