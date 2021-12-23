@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1235 591" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-58.5973,-135.107)">
+        <g id="logo">
+            <g id="box" transform="matrix(1.35748,0,0,1.35748,-3429.53,-1060.05)">
+                <g transform="matrix(0.845094,0,0,0.976236,111.617,-190.178)">
+                    <path d="M3101.48,1319.51L3294.47,1208.08L3294.47,1430.93L3101.48,1319.51Z" style="fill:rgb(0,72,171);"/>
+                </g>
+                <g transform="matrix(0.845094,0,0,0.976236,111.617,-190.178)">
+                    <path d="M3101.48,1319.51L3294.47,1430.93L3101.48,1542.36L2908.48,1430.93L3101.48,1319.51Z" style="fill:rgb(0,58,137);"/>
+                </g>
+                <g transform="matrix(0.845094,0,0,0.976236,111.617,-190.178)">
+                    <path d="M3101.48,1096.66L3294.47,1208.08L3101.48,1319.51L2908.48,1208.08L3101.48,1096.66Z" style="fill:rgb(17,115,251);"/>
+                </g>
+                <g transform="matrix(0.845094,0,0,0.976236,111.617,-190.178)">
+                    <path d="M3101.48,1319.51L2908.48,1430.93L2908.48,1208.08L3101.48,1319.51Z" style="fill:rgb(0,100,237);"/>
+                </g>
+            </g>
+            <g id="srg" transform="matrix(0.435252,0,0,0.435252,-24.6766,125.758)">
+                <g transform="matrix(1,0,0,1,1.59162e-12,29.9986)">
+                    <path d="M400,344.917L700,540L1000,344.917L1000,469.917L700,670L400,469.917L400,344.917Z" style="fill:rgb(185,221,255);"/>
+                </g>
+                <g transform="matrix(1,0,0,1,1.59162e-12,29.9986)">
+                    <path d="M700,670L700,540L1000,344.917L1000,469.917L700,670Z" style="fill:rgb(104,182,255);"/>
+                </g>
+                <g transform="matrix(1,0,0,1,1.59162e-12,213.8)">
+                    <path d="M400,344.917L700,540L1000,344.917L1000,469.917L700,670L400,469.917L400,344.917Z" style="fill:rgb(185,221,255);"/>
+                </g>
+                <g transform="matrix(1,0,0,1,1.59162e-12,213.8)">
+                    <path d="M700,670L700,540L1000,344.917L1000,469.917L700,670Z" style="fill:rgb(104,182,255);"/>
+                </g>
+                <g transform="matrix(1,0,0,1,1.59162e-12,397.602)">
+                    <path d="M400,344.917L700,540L1000,344.917L1000,469.917L700,670L400,469.917L400,344.917Z" style="fill:rgb(185,221,255);"/>
+                </g>
+                <g transform="matrix(1,0,0,1,1.59162e-12,397.602)">
+                    <path d="M700,670L700,540L1000,344.917L1000,469.917L700,670Z" style="fill:rgb(104,182,255);"/>
+                </g>
+            </g>
+        </g>
+        <g id="logotype" transform="matrix(5.09407,0,0,5.09407,-6234.3,-3620.28)">
+            <text x="1330.95px" y="812.682px" style="font-family:'Noway';font-size:50px;fill:rgb(65,65,65);">S<tspan x="1355px 1382.2px 1409.9px 1433.3px 1458.7px " y="812.682px 812.682px 812.682px 812.682px 812.682px ">RGEnt</tspan></text>
+        </g>
+    </g>
+</svg>
