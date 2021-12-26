@@ -7,23 +7,23 @@
 
 # SRGEnt
 
-SRGEnt (pronounced Sergeant) is a Simple Roslyn Generator assisted Entity Component Systems library for C#.
+SRGEnt (pronounced Sergeant) is a Simple, Roslyn Generator assisted, Entity Component Systems library for C#.
 
-It is meant to be a no fuss, easy to use library, providing a simple both to use and to learn API for creating entities and systems.
+It is meant to be a no fuss, easy to use library, providing a simple (both to use and to learn) API for creating entities and systems.
 
 # Overview
 
-SRGEnt has been originally created as a library for Unity and was heavily inspired by another ECS framework that was created for unity called [Entitas](https://github.com/sschmid/Entitas-CSharp). 
+SRGEnt has been originally created as a library for Unity and was heavily inspired by another ECS framework called [Entitas](https://github.com/sschmid/Entitas-CSharp). 
 
 SRGEnt is not as mature as Entitas or some of the other libraries out there and I would probably not recommend using it for production just yet.
 
-That said it is fairly easy to set up and the minimal amount of boilerplate to write makes it ideal library to prototype or GameJam with.
+That said it is easy to set up and the minimal amount of boilerplate to write makes it ideal library for creating prototypes or for use at GameJams.
 
 ## Why create another ECS Framework ?
 
 There is indeed plenty other ECS frameworks/libraries for C#, but none of them were a 100% fit for me.
 
-Most of them either require a lot of boilerplate, are complicated to use, debug, or their code is hard to read. Others use tools that are hard to configure or use or are not easy to adapt to cusom workflows.
+Most of them either require a lot of boilerplate, are complicated to use, debug, or their code is hard to read. Others use tools that are hard to configure/use or are not easy to adapt to cusom workflows.
 
 When I decided to write SRGEnt I had two main objectives in mind.
 
@@ -261,3 +261,9 @@ public class ECSBootstrap : MonoBehaviour
 }
 
 ```
+After you'll attach this mono behaviour to a scene in your project and hit play you should see a stream of debug log messages flowing down in your console.
+If you do then you are all set and ready to work with the library if not check below for some common problems.
+
+**Troubleshooting**
+
+Coming Soon
