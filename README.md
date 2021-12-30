@@ -279,3 +279,150 @@ If you do then you are all set and ready to work with the library if not check b
 **Troubleshooting**
 
 Coming Soon
+
+# Closer Look
+
+## SRGEnt Core
+---
+
+SRGEnt Core provides the base types, attributes and interfaces that are used both in runtime code and by the code generator.
+
+If you are looking into using SRGEnt you will be mostly interested in the IEntityDomain as it's the first thing you need to instantiate and it provides you with a way of creating and destroying entities.
+
+Some other areas of interest might be the two base system types ExecuteSystem and ReactiveSystem both of which will be used under the hood in the system base classes that will be automatically generated for your domains. It is worth noting that at the moment every time either of those systems runs they call Domain.CleanupEntities for you in the background.
+That call will trigger removal of all entities that were marked for destruction and rearangement (if necessary) of all the other entities so that they form a dense array.
+If you don't want that behaviour due to it's sometimes high computational cost you can implement your own systems as long as they implement the ISystem interface.
+
+There are few more classes that probably should be of intereste and those are Groups and Matchers.
+Groups are wrapper classes that the Domains use under the hood to provide you access to the entities that you need for your systems.
+Matchers are classes that are generated for you so that you can define the constraints for those entities.
+
+### Systems
+---
+- **ExecuteSystem** is the bread and butter of the ECS world. They execute their code on all the entities that match their matcher criteria.
+- **ReactiveSystem** is a bit more complicated as it will execute its code only on entities that have changed since the last time entities the matching group have been requested.
+
+**Reactive Systems Example Problem**
+
+If there are two Reactive system both of which share a group (their matcher criteria are the same)
+``` C#
+
+public class MoveDivisibleByTwo : GameReactiveSystem
+{
+    //....//
+    protected override void SetMatcher(ref GameMatcher matcher)
+    {
+        matcher.Requires
+        .Position();
+    }
+    //....//
+}
+
+public class MoveDivisibleByThree : GameReactiveSystem
+{
+    //....//
+    protected override void SetMatcher(ref GameMatcher matcher)
+    {
+        matcher.Requires
+        .Position();
+    }
+    //....//
+}
+
+```
+
+If both of the systems are executed directly one after another
+``` C#
+public void Update()
+{
+    _moveDivisibleByTwo.Execute();
+    _moveDivisibleByThree.Execute();
+}
+```
+The MoveDivisibleByTwo system will get all the entities that have changed since the last Update loop.
+But if all of them had a position of 9 (divisible by 3 but not by 2)
+The changed flag would be removed after the system finishes processing and the MoveDivisibleByThree system would not receive any entities to operate on even though there are definitely entities that have position divisible by three.
+
+Because of that I would advise to use Reactive systems only for specific occasions where there will definitely be no collision and prefferably when their matcher is fairly unique.
+Otherwise you might experience behaviours that will be hard to debug.
+
+I will try to provide some examples of when using reactive systems can be a good idea in the future but for now you will have to figure it out yourself.
+
+**One additional note to remember regarding ReactiveSystems**
+
+At the moment the system will get entities that had any changes happen to them since the last group entity request. That means that even if component that are not covered by the systems matcher have been added/removed/modified the entities will end up in the execution list.
+
+### Matchers
+---
+Matchers allow you to define the constraints on the entities you would want to receive in your systems.
+They provide three separate categories of constraint:
+- **Requires** constraint
+    
+    Any component under that constraint must be present (have a set value) on the entity for it to be passed to the execute method.
+- **ShouldHaveAtLeastOneOf** constraint
+
+    The entity will be passed to the execute method if the Entity has at least one of the component listed under this constraint type.
+- **CannotHave** constraint
+
+    The entity cannot have any of the components listed under this constraint to be passed into the execute method.
+
+Bellow is an example of using a matcher to define a set of constraints for entities.
+``` C#
+// Entity definition
+[EntityDefinition]
+public interface ICharacterEntity
+{
+    bool Alive {get;}
+    bool Undead {get;}
+    bool TrullyDead {get;}
+    bool InfectedByUndeadRot {get;}
+    int Health {get;}
+    Vector3 Position {get;}
+    Vector3 Heading {get;}
+    float Speed {get;}
+}
+
+public class MoveCharacters : CharacterExecuteSystem
+{
+   public MoveCharacters(MyFirstDomain domain) : base(domain)
+    {}
+
+    protected override void SetMatcher(ref CharacterMatcher matcher)
+    {
+        matcher.Requires
+        .Position()
+        .Heading()
+        .Speed()
+        .ShouldHaveAtLeastOneOf
+        .Alive()
+        .Undead()
+        .CannotHave
+        .TrullyDead();
+    }
+
+    protected override void Execute(ReadOnlySpan<CharacterEntity> entities)
+    {
+        foreach(var entity in entities)
+        {
+            entity.Position += entityt.Heading * entity.Speed;
+        }
+    }
+}
+```
+
+Matchers are generated as part of the generator processing so the base class present in the Core part of the library can help in understanding what is happening under the hood but will not have the API as presented in the example above.
+
+## SRGEnt Generator
+---
+
+SRGEnt Generator is the part that does all the heavy lifting behind the scenes but luckily for an average user it can remain a black box.
+
+Below is a short list of the things that the generator will build for you when you will define your domain and it's entity interface definitions.
+
+- Concrete Domain
+- Concrete Entity
+- Domain Matcher
+- Domain AspectSetter (helper class used under the hood to deliver clean fluent API)
+- An editor window that allows inspecting all entities (Alpha state and really slow and buggy)
+- Base classes for execute and reactive systems for your domains.
+- Bunch of interfaces you can use if you would want to create more generic systems that can work across domains as long as the entities have the right interfaces implemented.
