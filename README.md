@@ -53,10 +53,22 @@ If you can't wait for the next release and need it working now, hit me up on dis
 **Adding to your project**
 
 - Download the package you need from the latest release on github.
+    
+    ![Github-Releases](/Docs/Images/Installation_Unity/Releases_On_Github.png)
+    - Download the file with the .unitypackage extention from the release you need.
+
+        ![Download-Package](/Docs/Images/Installation_Unity/Pick_Release.png)
 - Import package through unity Import Custom Asset option in assets.
 
     *Assets/Import Package/Custom Package*
-- You are good to go.
+    
+    ![Import-Custom-Assets-Unity](/Docs/Images/Installation_Unity/Importing_Custom_Assets.png)
+    - After importing you should see a SRGEnt folder in your project.
+
+        ![Project-Content](/Docs/Images/Installation_Unity/Project_Content_After_Import.png)
+
+    
+- If you do. You are good to go.
 
 ### DotNet Projects
 
