@@ -291,13 +291,13 @@ Once opened during runtime (It needs the data to be in memory) it will look some
 ![Entity-Inspector-Example](/Docs/Images/Entity_Inspector_Unity/Inspector_View.png)
 
 ```
-    The inspector is still in it's early alpha stage and is very slow and buggy (Especially if there are hundreds of entities).
+The inspector is still in it's early alpha stage and is very slow and buggy (Especially if there are hundreds of entities).
 
-    It doesn't refresh the list of entities after it has been opened so new entities will not show until reopening.
-    Editing values can also be tricky as the editor will reset focus every second.
-    That said it should help with visualising the state of the outside of debugging in the IDE.
+It doesn't refresh the list of entities after it has been opened so new entities will not show until reopening.
+Editing values can also be tricky as the editor will reset focus every second.
+That said it should help with visualising the state of the outside of debugging in the IDE.
 
-    Those issues are quite high on the list of priorities for me to fix and I will update the documentation once the work is done.
+Those issues are quite high on the list of priorities for me to fix and I will update the documentation once the work is done.
 ```
 
 **Troubleshooting**
