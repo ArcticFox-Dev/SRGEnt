@@ -27,7 +27,7 @@ namespace SRGEnt.Aspects
             if (!CheckForRequired && !CheckForForbidden && !CheckForAnyOf) return false;
 
             var required = !CheckForRequired || aspect.ContainsAspect(Required);
-            var forbidden = !CheckForForbidden || aspect.DoesNotContainAspect(Forbidden);
+            var forbidden = !CheckForForbidden || aspect.DoesNotContainAnyPartOfAspect(Forbidden);
             var anyOf = !CheckForAnyOf || aspect.ContainsAnyPart(AnyOf);
             
             return required && forbidden && anyOf;

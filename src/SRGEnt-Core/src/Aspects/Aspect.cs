@@ -17,8 +17,9 @@ namespace SRGEnt.Aspects
             foreach (var bit in componentBits)
             {
                 var aspectIndex = new AspectIndex(bit);
-                _aspect[aspectIndex.Element] |= (byte) (1 << aspectIndex.Bit);
+                SetIndexQuietly(aspectIndex);
             }
+            RecalculateHashCode();
         }
 
         public Aspect(Aspect aspect)
@@ -78,7 +79,7 @@ namespace SRGEnt.Aspects
             return false;
         }
 
-        public bool DoesNotContainAspect(Aspect b)
+        public bool DoesNotContainAnyPartOfAspect(Aspect b)
         {
             if (_aspect.Length != b._aspect.Length) return false;
 

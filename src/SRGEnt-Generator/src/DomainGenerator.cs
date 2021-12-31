@@ -1,7 +1,7 @@
 using System.Text;
+using SRGEnt.Generator.DataTypes;
 using SRGEnt.Generator.DataTypes.Utils;
 using Microsoft.CodeAnalysis;
-using SRGEnt.Generator.DataTypes;
 
 namespace SRGEnt.Generator
 {
@@ -156,16 +156,32 @@ namespace SRGEnt.Generator
             var domainBlock = $@"{GeneratorConstants.GeneratorHeader}
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using SRGEnt.Interfaces;
 using SRGEnt.Enums;
 using SRGEnt.Groups;
 using SRGEnt.Aspects;
+#if UNITY_EDITOR
+using UnityEngine;
+#else
+using System.Diagnostics;
+#endif
 
 namespace SRGEnt.Generated
 {{
+
+    #if UNITY_EDITOR
+    public class {domainSymbolName}Container : ScriptableObject
+    {{
+        public {domainSymbolName} {domainSymbolName};
+    }}
+    #endif
+
     public partial class {domainSymbolName} : IEntityDomain<{entityName}, {domainSymbolName}, {matcherName}, {aspectSetterName}>{domainComponentInterfaces}{domainIndexInterfaces}
     {{
+        #if UNITY_EDITOR
+        public Dictionary<long,{entityName}> EntitiesByUid;
+        #endif
+
         private long _entitiesCreated;
 
         private readonly HashSet<{entityName}> _destroyedEntities;
@@ -206,6 +222,13 @@ namespace SRGEnt.Generated
 
             _cachingEntityGroups = new Dictionary<{matcherName}, CachingEntityGroup<{entityName}>>();
             _reactiveEntityGroups = new Dictionary<{matcherName}, ReactiveEntityGroup<{entityName}>>();
+
+            #if UNITY_EDITOR
+            EntitiesByUid = new Dictionary<long, {entityName}>();
+
+            var container = ScriptableObject.CreateInstance<{domainSymbolName}Container>();
+            container.{domainSymbolName} = this;
+            #endif
         }}
 
         public {entityName} CreateEntity()
@@ -218,6 +241,11 @@ namespace SRGEnt.Generated
             var entity = new {entityName}(this, CurrentEntityCount++, ++_entitiesCreated);
             _entities[entity.Index] = entity;
             _aspects[entity.Index] = CreateAspect();
+
+            #if UNITY_EDITOR
+            EntitiesByUid.Add(entity.UId,entity);
+            #endif
+
             return entity;
         }}
 
@@ -270,7 +298,14 @@ namespace SRGEnt.Generated
                     UpdateCachingGroupsWithMovedEntity(_entities[index]);
                     UpdateReactiveGroupsWithMovedEntity(_entities[index]);
 {updateIndexesBlock}
+
+                    #if UNITY_EDITOR
+                    EntitiesByUid[_entities[index].UId] = _entities[index];
+                    #endif
                 }}
+                #if UNITY_EDITOR
+                EntitiesByUid.Remove(entity.UId);
+                #endif
             }}
             _destroyedEntities.Clear();
         }}
