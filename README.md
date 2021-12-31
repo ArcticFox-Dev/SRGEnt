@@ -276,6 +276,30 @@ public class ECSBootstrap : MonoBehaviour
 After you'll attach this mono behaviour to a scene in your project and hit play you should see a stream of debug log messages flowing down in your console.
 If you do then you are all set and ready to work with the library if not check below for some common problems.
 
+**How to inspect entities**
+
+Entities are internally storred as Struct to help minimize garbage allocations when copying data around, unfortunately that means that it's not easy to inspect details of entities in Unity inspector as it doesn't play nice with structures.
+
+To help with viewing the state of your domains a custom inspector will be generated for every domains that you will define.
+
+It can be found in the unity toolbar:
+
+![Entity-Inspector-Location](/Docs/Images/Entity_Inspector_Unity/Where_To_Find_Inspector.png)
+
+Once opened during runtime (It needs the data to be in memory) it will look somewhat like the one below.
+
+![Entity-Inspector-Example](/Docs/Images/Entity_Inspector_Unity/Inspector_View.png)
+
+```
+    The inspector is still in it's early alpha stage and is very slow and buggy (Especially if there are hundreds of entities).
+
+    It doesn't refresh the list of entities after it has been opened so new entities will not show until reopening.
+    Editing values can also be tricky as the editor will reset focus every second.
+    That said it should help with visualising the state of the outside of debugging in the IDE.
+
+    Those issues are quite high on the list of priorities for me to fix and I will update the documentation once the work is done.
+```
+
 **Troubleshooting**
 
 Coming Soon
