@@ -56,7 +56,10 @@ namespace SRGEnt.Generator
                 {
                     var domain = nameDomainPair.Value;
                     DomainGenerator.GenerateDomain(context, domain, componentInterfaceGenerator);
+                    DomainInspectorGenerator.GenerateDomainInspector(context,domain);
                     EntityGenerator.GenerateEntity(context, domain, componentInterfaceGenerator);
+                    UnitySerializableEntityGenerator.GenerateUnitySerializableEntity(context,domain);
+                    UnityInspectorVisualElementGenerator.GenerateUnityInspectorVisualElement(context,domain);
                     AspectSetterGenerator.GenerateEntityAspectSetter(context, domain.Entity);
                     EntityMatcherGenerator.GenerateEntityMatcher(context, domain.Entity);
                     AbstractSystemGenerator.GenerateAbstractSystems(context,domain);
