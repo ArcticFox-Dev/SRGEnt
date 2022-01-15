@@ -9,9 +9,10 @@ namespace SRGEnt.Generator
         private readonly HashSet<string> _componentInterfaces = new HashSet<string>();
         public void GenerateIndexInterfaceIfNotPresent(ref GeneratorExecutionContext context, Component component)
         {
-            var interfaceName = $"SRGEnt.Generated.{component.IndexInterfaceName}";
-            if (_componentInterfaces.Contains(interfaceName)) return;
-            _componentInterfaces.Add(interfaceName);
+            var metadataName = $"SRGEnt.Generated.{component.IndexInterfaceName}";
+            if (_componentInterfaces.Contains(metadataName) 
+                || SymbolUtilities.DoesSymbolExist(metadataName,context.Compilation)) return;
+            _componentInterfaces.Add(metadataName);
 
             if (component.IndexType == "Primary")
             {
@@ -47,8 +48,10 @@ namespace SRGEnt.Generated
 
         public void GenerateComponentInterfacesIfNotPresent(ref GeneratorExecutionContext context, Component component)
         {
-            var interfaceName = $"SRGEnt.Generated.{component.InterfaceName}";
-            if (_componentInterfaces.Contains(component.InterfaceFileName)) return;
+            var metadataName = $"SRGEnt.Generated.{component.MetadataNameSuffix}";
+
+            if (_componentInterfaces.Contains(component.InterfaceFileName) 
+                || SymbolUtilities.DoesSymbolExist(metadataName,context.Compilation)) return;
 
             if (component.IsFlag)
             {
@@ -90,12 +93,14 @@ namespace SRGEnt.Generated
             FormattedFileWriter.WriteSourceFile(context,componentAspectBody,$"I{component.Name}Aspect");
             _componentInterfaces.Add(component.InterfaceFileName);
         }
-        
+
         public void GenerateEntityComponentObserverToken(GeneratorExecutionContext context, Domain domain,
             Component component)
         {
             var observerTokenName = $"{component.Name}ObserverToken";
-            if (_componentInterfaces.Contains(observerTokenName)) return;
+            var metadataName = $"SRGEnt.Generated.{observerTokenName}";
+            if (_componentInterfaces.Contains(observerTokenName)
+            || SymbolUtilities.DoesSymbolExist(metadataName,context.Compilation)) return;
 
             var observerTokenBody = $@"{GeneratorConstants.GeneratorHeader}
 using System;
