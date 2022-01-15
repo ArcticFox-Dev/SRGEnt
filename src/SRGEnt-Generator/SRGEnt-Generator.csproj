@@ -6,7 +6,7 @@
     <AssemblyName>SRGEnt.Generator</AssemblyName>
     <LangVersion>8</LangVersion>
     <PackageId>SRGEnt.Generator</PackageId>
-    <Version>0.5.1</Version>
+    <Version>0.5.2</Version>
     <Authors>Kazimierz Luska (Arctic Fox)</Authors>
     <PackageDescription>This is the generator for the SRGEnt library.</PackageDescription>
   </PropertyGroup>
