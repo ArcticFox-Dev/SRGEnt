@@ -67,23 +67,26 @@ namespace SRGEnt.Generator
             }
             finally
             {
-                var sb = new StringBuilder();
-                foreach (var entity in entitiesNames)
+                if (domainNames.Count > 1)
                 {
-                    sb.AppendLine($"//{entity}");
-                }
+                    var sb = new StringBuilder();
+                    foreach (var entity in entitiesNames)
+                    {
+                        sb.AppendLine($"//{entity}");
+                    }
 
-                foreach (var name in domainNames)
-                {
-                    sb.AppendLine($"//{name}");
-                }
+                    foreach (var name in domainNames)
+                    {
+                        sb.AppendLine($"//{name}");
+                    }
 
-                var assemblyIdentity = context.Compilation.Assembly.Identity;
-                var assemblyName = assemblyIdentity.Name;
-                assemblyName = assemblyName.Replace(".", "");
-                assemblyName = assemblyName.Replace(",", "");
+                    var assemblyIdentity = context.Compilation.Assembly.Identity;
+                    var assemblyName = assemblyIdentity.Name;
+                    assemblyName = assemblyName.Replace(".", "");
+                    assemblyName = assemblyName.Replace(",", "");
+                    assemblyName = assemblyName.Replace("-", "");
 
-                var generatorStats = $@"
+                    var generatorStats = $@"
 namespace SRGEnt.Generated.{assemblyName}
 {{
     public class GeneratorStats
@@ -94,7 +97,8 @@ namespace SRGEnt.Generated.{assemblyName}
     }}
 }}
 ";
-                FormattedFileWriter.WriteSourceFile(context, generatorStats, $"{assemblyName}.GeneratorStats");
+                    FormattedFileWriter.WriteSourceFile(context, generatorStats, $"{assemblyName}.GeneratorStats");
+                }
             }
 
             syntaxReceiver.EntitiesToGenerate.Clear();
