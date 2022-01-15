@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis;
 
 namespace SRGEnt.Generator
 {
-    public class DomainInspectorGenerator
+    public static class DomainInspectorGenerator
     {
         public static void GenerateDomainInspector(GeneratorExecutionContext context, Domain domain)
         {

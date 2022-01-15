@@ -26,7 +26,7 @@ namespace SRGEnt.Generator
 
             var entitiesNames = new List<string>();
             var domainNames = new List<string>();
-
+            
             try
             {
                 var entities = new Dictionary<string, Entity>();
@@ -78,17 +78,23 @@ namespace SRGEnt.Generator
                     sb.AppendLine($"//{name}");
                 }
 
+                var assemblyIdentity = context.Compilation.Assembly.Identity;
+                var assemblyName = assemblyIdentity.Name;
+                assemblyName = assemblyName.Replace(".", "");
+                assemblyName = assemblyName.Replace(",", "");
+
                 var generatorStats = $@"
-namespace SRGEnt.Generated
+namespace SRGEnt.Generated.{assemblyName}
 {{
     public class GeneratorStats
     {{
         public const int EntityCount = {syntaxReceiver.EntitiesToGenerate.Count.ToString()};
         public const int DomainCount = {syntaxReceiver.DomainsToGenerate.Count.ToString()};
+        public const string assemblyName = ""{assemblyName}""; 
     }}
 }}
 ";
-                FormattedFileWriter.WriteSourceFile(context, generatorStats, "GeneratorStats");
+                FormattedFileWriter.WriteSourceFile(context, generatorStats, $"{assemblyName}.GeneratorStats");
             }
 
             syntaxReceiver.EntitiesToGenerate.Clear();

@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis;
 
 namespace SRGEnt.Generator
 {
-    public class DomainGenerator
+    public static class DomainGenerator
     {
         public static void GenerateDomain(GeneratorExecutionContext context, Domain domain, ComponentInterfacesGenerator componentInterfacesGenerator)
         {

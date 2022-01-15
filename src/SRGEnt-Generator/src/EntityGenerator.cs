@@ -4,7 +4,7 @@ using SRGEnt.Generator.DataTypes;
 
 namespace SRGEnt.Generator
 {
-    public class EntityGenerator
+    public static class EntityGenerator
     {
         public static void GenerateEntity(GeneratorExecutionContext context, Domain domain,
             ComponentInterfacesGenerator componentInterfacesGenerator)

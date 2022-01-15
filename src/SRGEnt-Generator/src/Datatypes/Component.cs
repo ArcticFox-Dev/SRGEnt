@@ -11,6 +11,7 @@ namespace SRGEnt.Generator.DataTypes
         public string InterfaceName => IsFlag ? $"I{_symbol.Name}Flag" : $"I{_symbol.Name}<{_symbol.Type}>";
         public string InterfaceFileName => IsFlag ? $"I{_symbol.Name}Flag" : $"I{_symbol.Name}";
         public string IndexInterfaceName => $"{InterfaceFileName}{IndexType}Index";
+        public string MetadataNameSuffix => IsFlag ? InterfaceName : $"I{Name}`1";
 
         public string AspectName => $"{_symbol.Name.ToUpper()}_INDEX";
 
