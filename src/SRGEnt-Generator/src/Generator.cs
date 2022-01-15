@@ -67,7 +67,7 @@ namespace SRGEnt.Generator
             }
             finally
             {
-                if (domainNames.Count > 1)
+                if (domainNames.Count > 0)
                 {
                     var sb = new StringBuilder();
                     foreach (var entity in entitiesNames)
