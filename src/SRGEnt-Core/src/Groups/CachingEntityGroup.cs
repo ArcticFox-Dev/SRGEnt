@@ -6,13 +6,12 @@ using SRGEnt.Groups.Utils;
 
 namespace SRGEnt.Groups
 {
-    public class CachingEntityGroup<TEntity>: IEntityGroup<TEntity>, IDisposable 
+    public class CachingEntityGroup<TEntity>: ICachingEntityGroup<TEntity>, IDisposable 
         where TEntity: struct, IEntity, IEquatable<TEntity>
     {
         private readonly AspectMatcher _matcher;
 
         private TEntity[] _matchingEntities;
-        private int _matchingEntitiesCount;
 
         private readonly HashSet<TEntity> _changedEntities = new HashSet<TEntity>();
         private readonly HashSet<TEntity> _movedEntities = new HashSet<TEntity>();
@@ -28,21 +27,38 @@ namespace SRGEnt.Groups
 
         public void Dispose()
         { }
-        
+
+        #region IEntityGroup Implementation
+
         public ReadOnlySpan<TEntity> Entities
         {
             get
             {
-                if (_movedEntities.Count > 0 || _changedEntities.Count > 0 || _destroyedEntities.Count > 0)
-                {
-                    UpdateMovedEntities();
-                    UpdateChangedEntities();
-                    RemoveEntities();
-                    Array.Sort(_matchingEntities, 0, _matchingEntitiesCount, _comparer);
-                }
-
-                return new ReadOnlySpan<TEntity>(_matchingEntities).Slice(0, _matchingEntitiesCount);
+                UpdateCachedEntities();
+                return GetMatchingEntities();
             }
+        }
+
+        #endregion
+
+        #region ICachingGroupImplementation
+
+        public int EntityCount { get; private set; }
+
+        public void UpdateCachedEntities()
+        {
+            if (_movedEntities.Count > 0 || _changedEntities.Count > 0 || _destroyedEntities.Count > 0)
+            {
+                UpdateMovedEntities();
+                UpdateChangedEntities();
+                RemoveEntities();
+                Array.Sort(_matchingEntities, 0, EntityCount, _comparer);
+            }
+        }
+
+        public ReadOnlySpan<TEntity> GetCachedEntities(bool update)
+        {
+            return update ? Entities : GetMatchingEntities();
         }
 
         public void EntityDestroyed(TEntity entity)
@@ -64,6 +80,13 @@ namespace SRGEnt.Groups
         public void EntityValueChanged(TEntity entity)
         { }
 
+        #endregion
+        
+        private ReadOnlySpan<TEntity> GetMatchingEntities()
+        {
+            return new ReadOnlySpan<TEntity>(_matchingEntities).Slice(0, EntityCount);
+        }
+
         private void PrepopulateEntities(ReadOnlySpan<TEntity> entities)
         {
             _matchingEntities = new TEntity[Math.Max(entities.Length, 50)];
@@ -80,20 +103,20 @@ namespace SRGEnt.Groups
 
         private void AddMatchingEntity(TEntity entity)
         {
-            if (_matchingEntitiesCount + 1 == _matchingEntities.Length)
+            if (EntityCount + 1 == _matchingEntities.Length)
             {
                 var newArray = new TEntity[_matchingEntities.Length * 2];
                 new ReadOnlySpan<TEntity>(_matchingEntities).CopyTo(newArray);
                 _matchingEntities = newArray;
             }
-            _matchingEntities[_matchingEntitiesCount++] = entity;
+            _matchingEntities[EntityCount++] = entity;
         }
 
         private void UpdateMovedEntities()
         {
             foreach (var entity in _movedEntities)
             {
-                for (int i = 0; i < _matchingEntitiesCount; i++)
+                for (int i = 0; i < EntityCount; i++)
                 {
                     if (_matchingEntities[i].Equals(entity))
                     {
@@ -119,7 +142,7 @@ namespace SRGEnt.Groups
                 var matching = _matcher.MatchesAspect(entity.Aspect);
 
                 var contained = false;
-                for (int i = 0; i < _matchingEntitiesCount; i++)
+                for (int i = 0; i < EntityCount; i++)
                 {
                     if (_matchingEntities[i].Equals(entity))
                     {
@@ -142,19 +165,19 @@ namespace SRGEnt.Groups
         {
             foreach (var entity in _destroyedEntities)
             {
-                for (var i = 0; i < _matchingEntitiesCount; i++)
+                for (var i = 0; i < EntityCount; i++)
                 {
                     if (_matchingEntities[i].Equals(entity))
                     {
-                        if (i == _matchingEntitiesCount - 1)
+                        if (i == EntityCount - 1)
                         {
                             _matchingEntities[i] = default;
-                            _matchingEntitiesCount--;
+                            EntityCount--;
                             break;
                         }
                         Array.Copy(_matchingEntities,i+1,_matchingEntities, i, _matchingEntities.Length - i - 1);
-                        _matchingEntitiesCount--;
-                        _matchingEntities[_matchingEntitiesCount] = default;
+                        EntityCount--;
+                        _matchingEntities[EntityCount] = default;
                         break;
                     }
                 }

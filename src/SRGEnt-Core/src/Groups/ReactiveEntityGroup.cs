@@ -6,7 +6,7 @@ using SRGEnt.Groups.Utils;
 
 namespace SRGEnt.Groups
 {
-    public class ReactiveEntityGroup<TEntity>: IEntityGroup<TEntity>, IDisposable 
+    public class ReactiveEntityGroup<TEntity>: ICachingEntityGroup<TEntity>, IDisposable 
         where TEntity: struct, IEntity, IEquatable<TEntity>
     {
         private static readonly EntityIndexComparer<TEntity> _comparer = new EntityIndexComparer<TEntity>();
@@ -14,7 +14,6 @@ namespace SRGEnt.Groups
         private readonly AspectMatcher _matcher;
 
         private TEntity[] _matchingEntities;
-        private int _matchingEntitiesCount;
 
         private readonly HashSet<TEntity> _changedEntities = new HashSet<TEntity>();
         private readonly HashSet<TEntity> _movedEntities = new HashSet<TEntity>();
@@ -28,29 +27,46 @@ namespace SRGEnt.Groups
 
         public void Dispose()
         {}
-        
+
+        #region IEntityGroup Implementation
+
         public ReadOnlySpan<TEntity> Entities
         {
             get
             {
-                UpdateMovedEntities();
-                RemoveEntities();
-                
-                _matchingEntitiesCount = 0;
-                foreach (var entity in _changedEntities)
-                {
-                    if(_matcher.MatchesAspect(entity.Aspect))
-                    {
-                        AddMatchingEntity(entity);
-                    }
-                }
-                _changedEntities.Clear();
-
-                Array.Sort(_matchingEntities,0,_matchingEntitiesCount, _comparer);
-                return new ReadOnlySpan<TEntity>(_matchingEntities).Slice(0,_matchingEntitiesCount);
+                UpdateCachedEntities();
+                return GetMatchingEntities();
             }
         }
 
+        #endregion
+
+        #region ICachingEntityGroup Implementation
+
+        public int EntityCount { get; private set; }
+        public void UpdateCachedEntities()
+        {
+            UpdateMovedEntities();
+            RemoveEntities();
+                
+            EntityCount = 0;
+            foreach (var entity in _changedEntities)
+            {
+                if(_matcher.MatchesAspect(entity.Aspect))
+                {
+                    AddMatchingEntity(entity);
+                }
+            }
+            _changedEntities.Clear();
+
+            Array.Sort(_matchingEntities,0,EntityCount, _comparer);
+        }
+        
+        public ReadOnlySpan<TEntity> GetCachedEntities(bool update)
+        {
+            return update ? Entities : GetMatchingEntities();
+        }
+        
         public void EntityDestroyed(TEntity entity)
         {
             _destroyedEntities.Add(entity);
@@ -71,7 +87,14 @@ namespace SRGEnt.Groups
         {
             _changedEntities.Add(entity);
         }
+
+        #endregion
         
+        private ReadOnlySpan<TEntity> GetMatchingEntities()
+        {
+            return new ReadOnlySpan<TEntity>(_matchingEntities).Slice(0,EntityCount);
+        }
+
         private void UpdateMovedEntities()
         {
             foreach (var entity in _movedEntities)
@@ -100,13 +123,13 @@ namespace SRGEnt.Groups
 
         private void AddMatchingEntity(TEntity entity)
         {
-            if (_matchingEntitiesCount + 1 == _matchingEntities.Length)
+            if (EntityCount + 1 == _matchingEntities.Length)
             {
                 var newArray = new TEntity[_matchingEntities.Length * 2];
                 new ReadOnlySpan<TEntity>(_matchingEntities).CopyTo(newArray);
                 _matchingEntities = newArray;
             }
-            _matchingEntities[_matchingEntitiesCount++] = entity;
+            _matchingEntities[EntityCount++] = entity;
         }
     }
 }
