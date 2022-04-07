@@ -12,6 +12,7 @@ namespace SRGEnt.Groups
         private static readonly EntityIndexComparer<TEntity> _comparer = new EntityIndexComparer<TEntity>();
         
         private readonly AspectMatcher _matcher;
+        private readonly bool _shouldSort;
 
         private TEntity[] _matchingEntities;
         private int _matchingEntitiesCount;
@@ -20,9 +21,10 @@ namespace SRGEnt.Groups
         private readonly HashSet<TEntity> _movedEntities = new HashSet<TEntity>();
         private readonly HashSet<TEntity> _destroyedEntities = new HashSet<TEntity>();
 
-        public ReactiveEntityGroup(AspectMatcher matcher)
+        public ReactiveEntityGroup(AspectMatcher matcher, bool shouldSort = false)
         {
             _matcher = matcher;
+            _shouldSort = shouldSort;
             _matchingEntities = new TEntity[50];
         }
 
@@ -46,7 +48,10 @@ namespace SRGEnt.Groups
                 }
                 _changedEntities.Clear();
 
-                Array.Sort(_matchingEntities,0,_matchingEntitiesCount, _comparer);
+                if(_shouldSort)
+                {
+                    Array.Sort(_matchingEntities,0,_matchingEntitiesCount, _comparer);
+                }
                 return new ReadOnlySpan<TEntity>(_matchingEntities).Slice(0,_matchingEntitiesCount);
             }
         }
