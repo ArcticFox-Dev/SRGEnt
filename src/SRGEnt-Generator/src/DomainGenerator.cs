@@ -351,20 +351,20 @@ namespace SRGEnt.Generated
             return new (matcher, this);
         }}
 
-        public CachingEntityGroup<{entityName}> GetCachingGroup({matcherName} matcher)
+        public CachingEntityGroup<{entityName}> GetCachingGroup({matcherName} matcher, bool shouldSort)
         {{
             matcher.RecalculateHash();
             if (_cachingEntityGroups.ContainsKey(matcher)) return _cachingEntityGroups[matcher];
-            var group = new CachingEntityGroup<{entityName}>(matcher,Entities);
+            var group = new CachingEntityGroup<{entityName}>(matcher,Entities,shouldSort);
             _cachingEntityGroups.Add(matcher,group);
             return group;
         }}
 
-        public ReactiveEntityGroup<{entityName}> GetReactiveGroup({matcherName} matcher)
+        public ReactiveEntityGroup<{entityName}> GetReactiveGroup({matcherName} matcher, bool shouldSort)
         {{
             matcher.RecalculateHash();
             if (_reactiveEntityGroups.ContainsKey(matcher)) return _reactiveEntityGroups[matcher];
-            var group = new ReactiveEntityGroup<{entityName}>(matcher);
+            var group = new ReactiveEntityGroup<{entityName}>(matcher,shouldSort);
             _reactiveEntityGroups.Add(matcher,group);
             return group;
         }}

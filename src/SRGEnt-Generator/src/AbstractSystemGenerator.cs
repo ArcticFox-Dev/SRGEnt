@@ -14,7 +14,7 @@ namespace SRGEnt.Generated
 {{
     public abstract class {domain.Entity.ExecuteSystemName} : ExecuteSystem<{domain.Entity.EntityTypeName},{domain.DomainName},{domain.Entity.EntityMatcherName}, {domain.Entity.EntityAspectSetterName}>
     {{
-        protected {domain.Entity.ExecuteSystemName}({domain.DomainName} domain) : base(domain)
+        protected {domain.Entity.ExecuteSystemName}({domain.DomainName} domain, bool shouldSort = false) : base(domain, shouldSort)
         {{
         }}
     }}
@@ -27,7 +27,7 @@ namespace SRGEnt.Generated
 {{
     public abstract class {domain.Entity.ReactiveSystemName} : ReactiveSystem<{domain.Entity.EntityTypeName},{domain.DomainName},{domain.Entity.EntityMatcherName}, {domain.Entity.EntityAspectSetterName}>
     {{
-        protected {domain.Entity.ReactiveSystemName}({domain.DomainName} domain) : base(domain)
+        protected {domain.Entity.ReactiveSystemName}({domain.DomainName} domain, bool shouldSort = false) : base(domain, shouldSort)
         {{
         }}
     }}

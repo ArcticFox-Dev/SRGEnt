@@ -29,8 +29,8 @@ namespace SRGEnt.Interfaces
         // Group APIs
         // ----------
         EntityGroup<TEntity,TDomain,TMatcher,TAspectSetter> GetEntityGroup(TMatcher matcher);
-        CachingEntityGroup<TEntity> GetCachingGroup(TMatcher matcher);
-        ReactiveEntityGroup<TEntity> GetReactiveGroup(TMatcher matcher);
+        CachingEntityGroup<TEntity> GetCachingGroup(TMatcher matcher, bool sortEntities);
+        ReactiveEntityGroup<TEntity> GetReactiveGroup(TMatcher matcher, bool sortEntities);
         
         // ------------
         // Aspect APIs

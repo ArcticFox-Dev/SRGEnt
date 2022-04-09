@@ -13,12 +13,12 @@ namespace SRGEnt.Systems
         protected readonly TDomain _domain;
         private readonly CachingEntityGroup<TEntity> _internalGroup;
 
-        public ExecuteSystem(TDomain domain)
+        public ExecuteSystem(TDomain domain, bool shouldSort = false)
         {
             var matcher = domain.GetMatcher();
             _domain = domain;
             SetMatcher(ref matcher);
-            _internalGroup = _domain.GetCachingGroup(matcher);
+            _internalGroup = _domain.GetCachingGroup(matcher, shouldSort);
         }
 
         public void Execute()
