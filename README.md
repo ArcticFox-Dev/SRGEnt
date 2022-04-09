@@ -72,7 +72,7 @@ If you can't wait for the next release and need it working now, hit me up on dis
 
 ### DotNet Projects
 
-**Comming Soon**
+**Coming Soon**
 
 ##  Code
 
@@ -450,3 +450,11 @@ Below is a short list of the things that the generator will build for you when y
 - An editor window that allows inspecting all entities (Alpha state and really slow and buggy)
 - Base classes for execute and reactive systems for your domains.
 - Bunch of interfaces you can use if you would want to create more generic systems that can work across domains as long as the entities have the right interfaces implemented.
+
+## Changelog
+
+### 0.5.4
+- Switched groups to not sort entities by default.
+- Added a flag to systems constructor to enable sorting if needed.
+### 0.5.3
+- Removed '-', ',' and '.' from generated assembly names as it was causing problems in Unity

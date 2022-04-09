@@ -10,6 +10,7 @@ namespace SRGEnt.Groups
         where TEntity: struct, IEntity, IEquatable<TEntity>
     {
         private readonly AspectMatcher _matcher;
+        private readonly bool _shouldSort;
 
         private TEntity[] _matchingEntities;
         private int _matchingEntitiesCount;
@@ -20,9 +21,10 @@ namespace SRGEnt.Groups
 
         private static readonly EntityIndexComparer<TEntity> _comparer = new EntityIndexComparer<TEntity>();
 
-        public CachingEntityGroup(AspectMatcher matcher, ReadOnlySpan<TEntity> entities)
+        public CachingEntityGroup(AspectMatcher matcher, ReadOnlySpan<TEntity> entities, bool shouldSort = false)
         {
             _matcher = matcher;
+            _shouldSort = shouldSort;
             PrepopulateEntities(entities);
         }
 
@@ -38,7 +40,10 @@ namespace SRGEnt.Groups
                     UpdateMovedEntities();
                     UpdateChangedEntities();
                     RemoveEntities();
-                    Array.Sort(_matchingEntities, 0, _matchingEntitiesCount, _comparer);
+                    if(_shouldSort)
+                    {
+                        Array.Sort(_matchingEntities, 0, _matchingEntitiesCount, _comparer);
+                    }
                 }
 
                 return new ReadOnlySpan<TEntity>(_matchingEntities).Slice(0, _matchingEntitiesCount);

@@ -13,12 +13,12 @@ namespace SRGEnt.Systems
         protected readonly TDomain _domain;
         private readonly ReactiveEntityGroup<TEntity> _internalGroup;
 
-        public ReactiveSystem(TDomain domain)
+        public ReactiveSystem(TDomain domain, bool shouldSort = false)
         {
             var matcher =domain.GetMatcher();
             _domain = domain;
             SetMatcher(ref matcher);
-            _internalGroup = _domain.GetReactiveGroup(matcher);
+            _internalGroup = _domain.GetReactiveGroup(matcher, shouldSort);
         }
 
         public void Execute()
