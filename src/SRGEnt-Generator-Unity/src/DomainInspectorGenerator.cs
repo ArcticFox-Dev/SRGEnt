@@ -8,7 +8,6 @@ namespace SRGEnt.Generator
         public static void GenerateDomainInspector(GeneratorExecutionContext context, Domain domain)
         {
             var domainSymbolName = domain.DomainName;
-            var entityName = domain.Entity.EntityTypeName;
 
             var domainInspectorBody = $@"
 #if UNITY_EDITOR

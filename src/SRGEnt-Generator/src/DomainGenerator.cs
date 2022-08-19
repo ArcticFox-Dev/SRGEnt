@@ -160,28 +160,13 @@ using SRGEnt.Interfaces;
 using SRGEnt.Enums;
 using SRGEnt.Groups;
 using SRGEnt.Aspects;
-#if UNITY_EDITOR
-using UnityEngine;
-#else
 using System.Diagnostics;
-#endif
 
 namespace SRGEnt.Generated
 {{
 
-    #if UNITY_EDITOR
-    public class {domainSymbolName}Container : ScriptableObject
-    {{
-        public {domainSymbolName} {domainSymbolName};
-    }}
-    #endif
-
     public partial class {domainSymbolName} : IEntityDomain<{entityName}, {domainSymbolName}, {matcherName}, {aspectSetterName}>{domainComponentInterfaces}{domainIndexInterfaces}
     {{
-        #if UNITY_EDITOR
-        public Dictionary<long,{entityName}> EntitiesByUid;
-        #endif
-
         private long _entitiesCreated;
 
         private readonly HashSet<{entityName}> _destroyedEntities;
@@ -223,13 +208,10 @@ namespace SRGEnt.Generated
             _cachingEntityGroups = new Dictionary<{matcherName}, CachingEntityGroup<{entityName}>>();
             _reactiveEntityGroups = new Dictionary<{matcherName}, ReactiveEntityGroup<{entityName}>>();
 
-            #if UNITY_EDITOR
-            EntitiesByUid = new Dictionary<long, {entityName}>();
-
-            var container = ScriptableObject.CreateInstance<{domainSymbolName}Container>();
-            container.{domainSymbolName} = this;
-            #endif
+            ConstructorExtensionLateHook();
         }}
+
+        private partial void ConstructorExtensionLateHook();
 
         public {entityName} CreateEntity()
         {{
@@ -242,12 +224,12 @@ namespace SRGEnt.Generated
             _entities[entity.Index] = entity;
             _aspects[entity.Index] = CreateAspect();
 
-            #if UNITY_EDITOR
-            EntitiesByUid.Add(entity.UId,entity);
-            #endif
+            CreateEntityExtensionLateHook();
 
             return entity;
         }}
+
+        private partial void CreateEntityExtensionLateHook();
 
         private void DoubleCapacity()
         {{
@@ -299,16 +281,16 @@ namespace SRGEnt.Generated
                     UpdateReactiveGroupsWithMovedEntity(_entities[index]);
 {updateIndexesBlock}
 
-                    #if UNITY_EDITOR
-                    EntitiesByUid[_entities[index].UId] = _entities[index];
-                    #endif
+                    EntityMovedExtensionLateHook();
                 }}
-                #if UNITY_EDITOR
-                EntitiesByUid.Remove(entity.UId);
-                #endif
+
+                EntityRemovedExtensionLateHook();
             }}
             _destroyedEntities.Clear();
         }}
+
+        private partial void EntityMovedExtensionLateHook();
+        private partial void EntityRemovedExtensionLateHook();
 
         private void ShiftComponents(int from, int to)
         {{

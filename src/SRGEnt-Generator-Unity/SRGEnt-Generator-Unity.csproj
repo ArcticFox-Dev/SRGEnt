@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>SRGEnt.Generator.Unity</RootNamespace>
+    <AssemblyName>SRGEnt.Generator.Unity</AssemblyName>
+    <LangVersion>8</LangVersion>
+    <PackageId>SRGEnt.Generator.Unity</PackageId>
+    <Version>0.5.4</Version>
+    <Authors>Kazimierz Luska (Arctic Fox)</Authors>
+    <PackageDescription>This is a generator providing Unity extensions for the SRGEnt library.</PackageDescription>
+  </PropertyGroup>
+
+  <ItemGroup>
+    
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0-3.final" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.0.0" PrivateAssets="all" />
+    <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
+    <PackageReference Include="System.Reflection.Metadata" Version="5.0.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <!-- Generator Dependencies -->
+    <PackageReference Include="SRGEnt.Core" Version="0.5.0" PrivateAssets="all" GeneratePathProperty="true" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\SRGEnt-Core\SRGEnt-Core.csproj" />
+  </ItemGroup>
+  
+  <PropertyGroup>
+    <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
+  </PropertyGroup>
+  
+  <Target Name="GetDependencyTargetPaths">
+    <ItemGroup>
+      <TargetPathWithTargetPlatformMoniker Include="$(PKGSRGEnt_Core)\lib\netstandard2.0\SRGEnt.Core.dll" IncludeRuntimeDependency="false" />
+    </ItemGroup>
+  </Target>
+</Project>
