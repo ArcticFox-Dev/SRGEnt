@@ -6,7 +6,7 @@
     <AssemblyName>SRGEnt.Generator.Unity</AssemblyName>
     <LangVersion>8</LangVersion>
     <PackageId>SRGEnt.Generator.Unity</PackageId>
-    <Version>0.5.4</Version>
+    <Version>0.5.5</Version>
     <Authors>Kazimierz Luska (Arctic Fox)</Authors>
     <PackageDescription>This is a generator providing Unity extensions for the SRGEnt library.</PackageDescription>
   </PropertyGroup>
