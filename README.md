@@ -52,6 +52,8 @@ If you can't wait for the next release and need it working now, hit me up on dis
 
 **Adding to your project**
 
+***Manual Approach (Not recommended)***
+
 - Download the package you need from the latest release on github.
     
     ![Github-Releases](/Docs/Images/Installation_Unity/Releases_On_Github.png)
@@ -69,6 +71,11 @@ If you can't wait for the next release and need it working now, hit me up on dis
 
     
 - If you do. You are good to go.
+
+***Using UPM (Recommended)***
+
+SRGEnt is now available via Open UPM making its installation almost as easy as downloading a native Unity package!!  
+I strongly recommend using it to add it to your project. Instructions can be found on [**this**](https://openupm.com/packages/net.srgent.generator/) page.
 
 ### DotNet Projects
 
@@ -113,7 +120,7 @@ To define one you will need another interface this time decorated with a DomainD
 Like so:
 
 ``` C#
-[DomainDefinition(typeof(IMyEntity))]
+[DomainDefinition(typeof(IMyFirstEntity))]
 public interface IMyFirstDomain
 {}
 ```
@@ -453,6 +460,8 @@ Below is a short list of the things that the generator will build for you when y
 
 ## Changelog
 
+### 0.5.5
+- Split the Unity specific generation into its own generator so that it can be easier removed if not needed.
 ### 0.5.4
 - Switched groups to not sort entities by default.
 - Added a flag to systems constructor to enable sorting if needed.
