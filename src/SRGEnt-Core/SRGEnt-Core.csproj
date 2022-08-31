@@ -6,7 +6,7 @@
     <AssemblyName>SRGEnt.Core</AssemblyName>
     <LangVersion>8</LangVersion>
     <PackageId>SRGEnt.Core</PackageId>
-    <Version>0.5.4</Version>
+    <Version>0.5.5</Version>
     <Authors>Kazimierz Luska (Arctic Fox)</Authors>
     <PackageDescription>This is the core part of the SRGEnt library.</PackageDescription>
   </PropertyGroup>

@@ -3,7 +3,7 @@ using SRGEnt.Generator.DataTypes;
 using SRGEnt.Generator.DataTypes.Utils;
 using Microsoft.CodeAnalysis;
 
-namespace SRGEnt.Generator
+namespace SRGEnt.Generator.Unity
 {
     public class UnityInspectorVisualElementGenerator
     {

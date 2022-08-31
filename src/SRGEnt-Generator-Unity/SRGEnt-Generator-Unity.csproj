@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>SRGEnt.Generator</RootNamespace>
-    <AssemblyName>SRGEnt.Generator</AssemblyName>
+    <RootNamespace>SRGEnt.Generator.Unity</RootNamespace>
+    <AssemblyName>SRGEnt.Generator.Unity</AssemblyName>
     <LangVersion>8</LangVersion>
-    <PackageId>SRGEnt.Generator</PackageId>
+    <PackageId>SRGEnt.Generator.Unity</PackageId>
     <Version>0.5.5</Version>
     <Authors>Kazimierz Luska (Arctic Fox)</Authors>
-    <PackageDescription>This is the generator for the SRGEnt library.</PackageDescription>
+    <PackageDescription>This is a generator providing Unity extensions for the SRGEnt library.</PackageDescription>
   </PropertyGroup>
 
   <ItemGroup>

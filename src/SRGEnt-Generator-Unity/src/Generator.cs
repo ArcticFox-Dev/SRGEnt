@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis;
 using SRGEnt.Generator.DataTypes;
 using SRGEnt.Generator.DataTypes.Utils;
 
-namespace SRGEnt.Generator
+namespace SRGEnt.Generator.Unity
 {
     [Generator]
     public class Generator : ISourceGenerator
@@ -18,7 +18,6 @@ namespace SRGEnt.Generator
 
         public void Execute(GeneratorExecutionContext context)
         {
-            var componentInterfaceGenerator = new ComponentInterfacesGenerator();
             // the generator infrastructure will create a receiver and populate it
             // we can retrieve the populated instance via the context
             var syntaxReceiver = (SRGEntDefinitionReceiver)context.SyntaxReceiver;
@@ -55,11 +54,10 @@ namespace SRGEnt.Generator
                 foreach (var nameDomainPair in domains)
                 {
                     var domain = nameDomainPair.Value;
-                    DomainGenerator.GenerateDomain(context, domain, componentInterfaceGenerator);
-                    EntityGenerator.GenerateEntity(context, domain, componentInterfaceGenerator);
-                    AspectSetterGenerator.GenerateEntityAspectSetter(context, domain.Entity);
-                    EntityMatcherGenerator.GenerateEntityMatcher(context, domain.Entity);
-                    AbstractSystemGenerator.GenerateAbstractSystems(context,domain);
+                    DomainGenerator.GenerateDomain(context, domain);
+                    DomainInspectorGenerator.GenerateDomainInspector(context,domain);
+                    UnitySerializableEntityGenerator.GenerateUnitySerializableEntity(context,domain);
+                    UnityInspectorVisualElementGenerator.GenerateUnityInspectorVisualElement(context,domain);
                 }
             }
             finally
@@ -86,15 +84,14 @@ namespace SRGEnt.Generator
                     var generatorStats = $@"
 namespace SRGEnt.Generated.{assemblyName}
 {{
-    public class GeneratorStats
+    public class UnityGeneratorStats
     {{
-        public const int EntityCount = {syntaxReceiver.EntitiesToGenerate.Count.ToString()};
         public const int DomainCount = {syntaxReceiver.DomainsToGenerate.Count.ToString()};
         public const string assemblyName = ""{assemblyName}""; 
     }}
 }}
 ";
-                    FormattedFileWriter.WriteSourceFile(context, generatorStats, $"{assemblyName}.GeneratorStats");
+                    FormattedFileWriter.WriteSourceFile(context, generatorStats, $"{assemblyName}.UnityGeneratorStats");
                 }
             }
 

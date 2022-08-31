@@ -2,7 +2,7 @@
 using SRGEnt.Generator.DataTypes;
 using Microsoft.CodeAnalysis;
 
-namespace SRGEnt.Generator
+namespace SRGEnt.Generator.Unity
 {
     public class UnitySerializableEntityGenerator
     {
