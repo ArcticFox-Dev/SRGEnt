@@ -224,12 +224,12 @@ namespace SRGEnt.Generated
             _entities[entity.Index] = entity;
             _aspects[entity.Index] = CreateAspect();
 
-            CreateEntityExtensionLateHook();
+            CreateEntityExtensionLateHook(entity);
 
             return entity;
         }}
 
-        private partial void CreateEntityExtensionLateHook();
+        private partial void CreateEntityExtensionLateHook({entityName} entity);
 
         private void DoubleCapacity()
         {{
@@ -281,16 +281,16 @@ namespace SRGEnt.Generated
                     UpdateReactiveGroupsWithMovedEntity(_entities[index]);
 {updateIndexesBlock}
 
-                    EntityMovedExtensionLateHook();
+                    EntityMovedExtensionLateHook(index);
                 }}
 
-                EntityRemovedExtensionLateHook();
+                EntityRemovedExtensionLateHook(entity);
             }}
             _destroyedEntities.Clear();
         }}
 
-        private partial void EntityMovedExtensionLateHook();
-        private partial void EntityRemovedExtensionLateHook();
+        private partial void EntityMovedExtensionLateHook(int index);
+        private partial void EntityRemovedExtensionLateHook({entityName} entity);
 
         private void ShiftComponents(int from, int to)
         {{

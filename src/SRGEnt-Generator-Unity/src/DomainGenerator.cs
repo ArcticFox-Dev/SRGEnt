@@ -39,17 +39,17 @@ namespace SRGEnt.Generated
             container.{domainSymbolName} = this;
         }}
 
-        private partial void CreateEntityExtensionLateHook()
+        private partial void CreateEntityExtensionLateHook({entityName} entity)
         {{
             EntitiesByUid.Add(entity.UId,entity);
         }}
 
-        private partial void EntityMovedExtensionLateHook()
+        private partial void EntityMovedExtensionLateHook(int index)
         {{
             EntitiesByUid[_entities[index].UId] = _entities[index];
         }}
 
-        private partial void EntityRemovedExtensionLateHook()
+        private partial void EntityRemovedExtensionLateHook({entityName} entity)
         {{
             EntitiesByUid.Remove(entity.UId);
         }}
