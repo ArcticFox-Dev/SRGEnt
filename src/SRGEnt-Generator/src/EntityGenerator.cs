@@ -38,7 +38,7 @@ namespace SRGEnt.Generator
 using System;
 using SRGEnt.Interfaces;
 using SRGEnt.Aspects;
-using SRGEnt.Enums;
+//using SRGEnt.Enums;
 
 namespace SRGEnt.Generated
 {{

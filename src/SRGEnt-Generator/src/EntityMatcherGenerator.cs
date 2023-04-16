@@ -8,7 +8,7 @@ namespace SRGEnt.Generator
         public static void GenerateEntityMatcher(GeneratorExecutionContext context, Entity entity)
         {
             var matcher =  $@"{GeneratorConstants.GeneratorHeader}
-using SRGEnt;
+//using SRGEnt;
 using SRGEnt.Aspects;
 using SRGEnt.Interfaces;
 

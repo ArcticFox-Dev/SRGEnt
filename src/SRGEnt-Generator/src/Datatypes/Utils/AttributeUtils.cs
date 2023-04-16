@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using SRGEnt.Attributes;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -11,10 +10,10 @@ namespace SRGEnt.Generator.DataTypes.Utils
     {
         #region Attribute Names
 
-        private const string EntityDefinitionFullName = nameof(EntityDefinitionAttribute);
-        private const string DomainDefinitionFullName = nameof(DomainDefinitionAttribute);
-        private const string IndexComponentFullName = nameof(IndexComponentAttribute);
-        private const string ObservableComponentFullName = nameof(ObservableComponentAttribute);
+        private const string EntityDefinitionFullName = "EntityDefinitionAttribute";
+        private const string DomainDefinitionFullName = "DomainDefinitionAttribute";
+        private const string IndexComponentFullName = "IndexComponentAttribute";
+        private const string ObservableComponentFullName = "ObservableComponentAttribute";
 
         private static readonly string EntityDefinitionShortName =
             EntityDefinitionFullName.Replace(nameof(Attribute), "");

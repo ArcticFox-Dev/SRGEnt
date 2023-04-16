@@ -31,7 +31,7 @@
   
   <ItemGroup>
     <!-- Generator Dependencies -->
-    <PackageReference Include="SRGEnt.Core" Version="0.5.5" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="SRGEnt.Core" Version="0.5.0" PrivateAssets="all" GeneratePathProperty="true" />
   </ItemGroup>
   
   <ItemGroup>

@@ -157,7 +157,7 @@ namespace SRGEnt.Generator
 using System;
 using System.Collections.Generic;
 using SRGEnt.Interfaces;
-using SRGEnt.Enums;
+//using SRGEnt.Enums;
 using SRGEnt.Groups;
 using SRGEnt.Aspects;
 using System.Diagnostics;
@@ -208,10 +208,10 @@ namespace SRGEnt.Generated
             _cachingEntityGroups = new Dictionary<{matcherName}, CachingEntityGroup<{entityName}>>();
             _reactiveEntityGroups = new Dictionary<{matcherName}, ReactiveEntityGroup<{entityName}>>();
 
-            ConstructorExtensionLateHook();
+            //ConstructorExtensionLateHook();
         }}
 
-        private partial void ConstructorExtensionLateHook();
+        //private partial void ConstructorExtensionLateHook();
 
         public {entityName} CreateEntity()
         {{
@@ -224,12 +224,12 @@ namespace SRGEnt.Generated
             _entities[entity.Index] = entity;
             _aspects[entity.Index] = CreateAspect();
 
-            CreateEntityExtensionLateHook(entity);
+            //CreateEntityExtensionLateHook(entity);
 
             return entity;
         }}
 
-        private partial void CreateEntityExtensionLateHook({entityName} entity);
+        //private partial void CreateEntityExtensionLateHook({entityName} entity);
 
         private void DoubleCapacity()
         {{
@@ -281,16 +281,16 @@ namespace SRGEnt.Generated
                     UpdateReactiveGroupsWithMovedEntity(_entities[index]);
 {updateIndexesBlock}
 
-                    EntityMovedExtensionLateHook(index);
+                    //EntityMovedExtensionLateHook(index);
                 }}
 
-                EntityRemovedExtensionLateHook(entity);
+                //EntityRemovedExtensionLateHook(entity);
             }}
             _destroyedEntities.Clear();
         }}
 
-        private partial void EntityMovedExtensionLateHook(int index);
-        private partial void EntityRemovedExtensionLateHook({entityName} entity);
+        //private partial void EntityMovedExtensionLateHook(int index);
+        //private partial void EntityRemovedExtensionLateHook({entityName} entity);
 
         private void ShiftComponents(int from, int to)
         {{

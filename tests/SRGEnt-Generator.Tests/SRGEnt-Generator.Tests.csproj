@@ -1,0 +1,70 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+
+        <IsPackable>false</IsPackable>
+        <IsTestProject>true</IsTestProject>
+        <RootNamespace>SRGEnt.Generator.Tests</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="coverlet.collector" Version="3.2.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="FluentAssertions" Version="6.10.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.SourceGenerators.Testing.XUnit" Version="1.1.1" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.6.0-1.final" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0-preview-20230223-05" />
+        <PackageReference Include="System.Memory" Version="4.5.5" />
+        <PackageReference Include="xunit" Version="2.4.2" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\SRGEnt-Core\SRGEnt-Core.csproj" />
+      <ProjectReference Include="..\..\src\SRGEnt-Generator\SRGEnt-Generator.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="TestData\Outputs\EmptyRun_GeneratorStats.cs" />
+      <AdditionalFiles Include="TestData\Outputs\EmptyRun_GeneratorStats.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\EmptyEntityAndSystem_Domain.cs" />
+      <AdditionalFiles Include="TestData\Outputs\EmptyEntityAndSystem_Domain.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\EmptyEntityAndSystem_Entity.cs" />
+      <AdditionalFiles Include="TestData\Outputs\EmptyEntityAndSystem_Entity.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\EmptyEntityAndSystem_Matcher.cs" />
+      <AdditionalFiles Include="TestData\Outputs\EmptyEntityAndSystem_Matcher.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\EmptyEntityAndSystem_Setter.cs" />
+      <AdditionalFiles Include="TestData\Outputs\EmptyEntityAndSystem_Setter.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\ExecuteSystem.cs" />
+      <AdditionalFiles Include="TestData\Outputs\ExecuteSystem.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\ReactiveSystem.cs" />
+      <AdditionalFiles Include="TestData\Outputs\ReactiveSystem.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Inputs\EmptyEntityAndSystem_Definitions.cs" />
+      <AdditionalFiles Include="TestData\Inputs\EmptyEntityAndSystem_Definitions.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+    </ItemGroup>
+
+</Project>

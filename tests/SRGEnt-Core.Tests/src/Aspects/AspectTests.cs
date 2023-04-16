@@ -5,8 +5,6 @@ using Xunit;
 
 namespace SRGEnt.Tests.Aspects
 {
-    
-    
     public class AspectTests
     {
         [Theory]

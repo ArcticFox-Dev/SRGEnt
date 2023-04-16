@@ -64,26 +64,24 @@ namespace SRGEnt.Generator
             }
             finally
             {
-                if (domainNames.Count > 0)
+                var sb = new StringBuilder();
+                foreach (var entity in entitiesNames)
                 {
-                    var sb = new StringBuilder();
-                    foreach (var entity in entitiesNames)
-                    {
-                        sb.AppendLine($"//{entity}");
-                    }
+                    sb.AppendLine($"//{entity}");
+                }
 
-                    foreach (var name in domainNames)
-                    {
-                        sb.AppendLine($"//{name}");
-                    }
+                foreach (var name in domainNames)
+                {
+                    sb.AppendLine($"//{name}");
+                }
 
-                    var assemblyIdentity = context.Compilation.Assembly.Identity;
-                    var assemblyName = assemblyIdentity.Name;
-                    assemblyName = assemblyName.Replace(".", "");
-                    assemblyName = assemblyName.Replace(",", "");
-                    assemblyName = assemblyName.Replace("-", "");
+                var assemblyIdentity = context.Compilation.Assembly.Identity;
+                var assemblyName = assemblyIdentity.Name;
+                assemblyName = assemblyName.Replace(".", "");
+                assemblyName = assemblyName.Replace(",", "");
+                assemblyName = assemblyName.Replace("-", "");
 
-                    var generatorStats = $@"
+                var generatorStats = $@"
 namespace SRGEnt.Generated.{assemblyName}
 {{
     public class GeneratorStats
@@ -94,8 +92,7 @@ namespace SRGEnt.Generated.{assemblyName}
     }}
 }}
 ";
-                    FormattedFileWriter.WriteSourceFile(context, generatorStats, $"{assemblyName}.GeneratorStats");
-                }
+                FormattedFileWriter.WriteSourceFile(context, generatorStats, $"{assemblyName}.GeneratorStats");
             }
 
             syntaxReceiver.EntitiesToGenerate.Clear();
