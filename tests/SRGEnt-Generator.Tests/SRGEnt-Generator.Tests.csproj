@@ -34,35 +34,39 @@
 
     <ItemGroup>
       <Compile Remove="TestData\Outputs\EmptyRun_GeneratorStats.cs" />
-      <AdditionalFiles Include="TestData\Outputs\EmptyRun_GeneratorStats.cs">
+      <AdditionalFiles Include="TestData\Inputs\EmptyEntityAndSystem\EmptyEntityAndSystem_Definitions.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <AdditionalFiles Include="TestData\Outputs\EmptyEntityAndSystem\EmptyEntityAndSystem_Domain.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <AdditionalFiles Include="TestData\Outputs\EmptyEntityAndSystem\EmptyEntityAndSystem_Entity.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <AdditionalFiles Include="TestData\Outputs\EmptyEntityAndSystem\EmptyEntityAndSystem_Matcher.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <AdditionalFiles Include="TestData\Outputs\EmptyEntityAndSystem\EmptyEntityAndSystem_Setter.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </AdditionalFiles>
       <Compile Remove="TestData\Outputs\EmptyEntityAndSystem_Domain.cs" />
-      <AdditionalFiles Include="TestData\Outputs\EmptyEntityAndSystem_Domain.cs">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </AdditionalFiles>
       <Compile Remove="TestData\Outputs\EmptyEntityAndSystem_Entity.cs" />
-      <AdditionalFiles Include="TestData\Outputs\EmptyEntityAndSystem_Entity.cs">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </AdditionalFiles>
       <Compile Remove="TestData\Outputs\EmptyEntityAndSystem_Matcher.cs" />
-      <AdditionalFiles Include="TestData\Outputs\EmptyEntityAndSystem_Matcher.cs">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </AdditionalFiles>
       <Compile Remove="TestData\Outputs\EmptyEntityAndSystem_Setter.cs" />
-      <AdditionalFiles Include="TestData\Outputs\EmptyEntityAndSystem_Setter.cs">
+      <Compile Remove="TestData\Outputs\ExecuteSystem.cs" />
+      <AdditionalFiles Include="TestData\Outputs\EmptyEntityAndSystem\EmptyEntityAndSystem_ExecuteSystem.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </AdditionalFiles>
-      <Compile Remove="TestData\Outputs\ExecuteSystem.cs" />
-      <AdditionalFiles Include="TestData\Outputs\ExecuteSystem.cs">
+      <AdditionalFiles Include="TestData\Outputs\EmptyEntityAndSystem\EmptyEntityAndSystem_ReactiveSystem.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <AdditionalFiles Include="TestData\Outputs\EmptyRun\EmptyRun_GeneratorStats.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </AdditionalFiles>
       <Compile Remove="TestData\Outputs\ReactiveSystem.cs" />
-      <AdditionalFiles Include="TestData\Outputs\ReactiveSystem.cs">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </AdditionalFiles>
       <Compile Remove="TestData\Inputs\EmptyEntityAndSystem_Definitions.cs" />
-      <AdditionalFiles Include="TestData\Inputs\EmptyEntityAndSystem_Definitions.cs">
+      <Compile Remove="TestData\Outputs\EmptyEntityAndSystem\EmptyEntityAndSystem_GeneratorStats.cs" />
+      <AdditionalFiles Include="TestData\Outputs\EmptyEntityAndSystem\EmptyEntityAndSystem_GeneratorStats.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </AdditionalFiles>
     </ItemGroup>

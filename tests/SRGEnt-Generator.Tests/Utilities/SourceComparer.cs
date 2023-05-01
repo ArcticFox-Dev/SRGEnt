@@ -4,7 +4,29 @@ namespace SRGEnt.Generator.Tests.Utilities;
 
 public class SourceComparer
 {
-    public static void CompareTwoFiles(string first, string second, int bufferLength = 5, string errorHeader = "")
+    private CompilationDriverWrapper _compilationDriverWrapper;
+    private int _bufferLength;
+    public SourceComparer(CompilationDriverWrapper compilationDriverWrapper, int bufferLength = 5)
+    {
+        _compilationDriverWrapper = compilationDriverWrapper;
+        _bufferLength = bufferLength;
+    }
+
+    public void CompareGeneratedToSourceString(string generatedFileName, string comparisonSource)
+    {
+        var generatedSource = _compilationDriverWrapper.GetGeneratedSource(generatedFileName);
+        CompareTwoSourceStrings(generatedSource,comparisonSource,_bufferLength,
+            $"{generatedFileName} does not match the provided comparison source");
+    }
+
+    public void CompareGeneratedToFile(string generatedFileName, string comparisonFilePath)
+    {
+        var comparisonSource = File.ReadAllText(comparisonFilePath);
+        var generatedSource = _compilationDriverWrapper.GetGeneratedSource(generatedFileName);
+        CompareTwoSourceStrings(generatedSource,comparisonSource,_bufferLength,
+            $"{generatedFileName} does not match the provided comparison source in file {comparisonFilePath}");
+    }
+    public static void CompareTwoSourceStrings(string first, string second, int bufferLength = 5, string errorHeader = "")
     {
         if (bufferLength < 2) bufferLength = 2;
         
@@ -18,6 +40,7 @@ public class SourceComparer
         var secondStream = GenerateStreamFromString(second);
 
         var circularBuffer = new string[bufferLength];
+        var secondCircularBuffer = new string[bufferLength];
         var bufferIndex = 0;
         
         var firstStreamReader = new StreamReader(firstStream);
@@ -31,12 +54,15 @@ public class SourceComparer
             linesRead++;
             
             circularBuffer[bufferIndex % bufferLength] = firstLine;
+            secondCircularBuffer[bufferIndex % bufferLength] = secondLine;
             bufferIndex++;
             
             if (string.CompareOrdinal(firstLine, secondLine) != 0)
             {
                 sb.AppendLine("The files were not identical.");
                 sb.AppendLine($"The difference appeared on line {linesRead}");
+                sb.AppendLine($"\n---------------");
+                sb.AppendLine("Generated Source:\n");
                 if (bufferIndex < bufferLength)
                 {
                     for (var i = 0; i < bufferIndex; i++)
@@ -44,8 +70,13 @@ public class SourceComparer
                         var lineNumber = i + 1;
                         sb.AppendLine($"{lineNumber}\t{circularBuffer[i]}");
                     }
-                    sb.AppendLine($"ErrorLine");
-                    sb.AppendLine($"{bufferIndex} {secondLine}");
+                    sb.AppendLine($"\n---------------");
+                    sb.AppendLine("Comparison Source:\n");
+                    for (var i = 0; i < bufferIndex; i++)
+                    {
+                        var lineNumber = i + 1;
+                        sb.AppendLine($"{lineNumber}\t{secondCircularBuffer[i]}");
+                    }
                 }
                 else
                 {
@@ -55,9 +86,16 @@ public class SourceComparer
                         sb.AppendLine($"{lineNumber}\t{circularBuffer[i % bufferLength]}");
                         lineNumber++;
                     }
-                    sb.AppendLine($"---------------");
-                    sb.AppendLine($"{lineNumber - 1}\t{secondLine}");
+                    sb.AppendLine($"\n---------------");
+                    sb.AppendLine("Comparison Source:\n");
+                    lineNumber = linesRead - bufferLength + 1;
+                    for (var i = bufferIndex - bufferLength; i < bufferIndex; i++)
+                    {
+                        sb.AppendLine($"{lineNumber}\t{secondCircularBuffer[i % bufferLength]}");
+                        lineNumber++;
+                    }
                 }
+                sb.AppendLine($"\n---------------");
                 Assert.Fail(sb.ToString());
             }
         }

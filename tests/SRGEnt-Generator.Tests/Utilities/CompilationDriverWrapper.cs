@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 using System.Reflection;
+using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
@@ -10,15 +11,12 @@ public class CompilationDriverWrapper
     public Compilation InputCompilation
     {
         get;
-        init;
     }
-
     public GeneratorDriver Driver
     {
         get;
         private set;
     }
-
     public Compilation? OutputCompilation { get; private set; }
     public ImmutableArray<Diagnostic> Diagnostics { get; private set; }
 
@@ -39,9 +37,35 @@ public class CompilationDriverWrapper
         OutputCompilation = outputCompilation;
         Diagnostics = diagnostics;
     }
+
+    public string GetGeneratedSource(string fileName)
+    {
+        var generatedSources = Driver.GetRunResult().Results.First().GeneratedSources;
+        GeneratedSourceResult targetFile;
+
+        try
+        {
+            targetFile = Driver.GetRunResult().Results.First().GeneratedSources.First(gs => string.CompareOrdinal(gs.HintName,fileName) == 0);
+        }
+        catch (Exception e)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine();
+            sb.AppendLine($"Failed to find a generated file with the name:\n*** {fileName} ***\n");
+            sb.AppendLine("Available Generated Files:");
+            foreach (var generatedSource in generatedSources)
+            {
+                sb.AppendLine(generatedSource.HintName.ToString());
+            }
+            Assert.Fail(sb.ToString());
+        }
+
+        return targetFile.SourceText.ToString();
+    }
     
     public class Builder
     {
+        private string _assemblyName = "CompilationDataWrapper"; 
         private readonly List<ISourceGenerator> _generators = new List<ISourceGenerator>();
         private readonly List<string> _sources = new List<string>();
         private readonly List<string> _dependencies = new List<string>();
@@ -60,6 +84,12 @@ public class CompilationDriverWrapper
         public Builder AddDependency(string dependency)
         {
             _dependencies.Add(dependency);
+            return this;
+        }
+
+        public Builder SetAssemblyName(string assemblyName)
+        {
+            _assemblyName = assemblyName;
             return this;
         }
 
@@ -86,7 +116,7 @@ public class CompilationDriverWrapper
                 references.Add(MetadataReference.CreateFromFile(Assembly.Load(dependency).Location));
             }
             
-            var compilation = CSharpCompilation.Create("CompilationDataWrapper",                
+            var compilation = CSharpCompilation.Create(_assemblyName,                
                 syntaxTrees.ToArray(),
                 references.ToArray(),
                 new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
