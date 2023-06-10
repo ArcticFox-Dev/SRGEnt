@@ -157,7 +157,6 @@ namespace SRGEnt.Generator
 using System;
 using System.Collections.Generic;
 using SRGEnt.Interfaces;
-//using SRGEnt.Enums;
 using SRGEnt.Groups;
 using SRGEnt.Aspects;
 using System.Diagnostics;

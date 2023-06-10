@@ -1,6 +1,6 @@
 ﻿using SRGEnt.Attributes;
 
-namespace WobblyAdventures.ECS.Definitions
+namespace EmptyEntityAndSystem.Definitions
 {
     [EntityDefinition]
     public interface ITestEntity

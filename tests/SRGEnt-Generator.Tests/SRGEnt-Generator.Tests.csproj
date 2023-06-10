@@ -69,6 +69,100 @@
       <AdditionalFiles Include="TestData\Outputs\EmptyEntityAndSystem\EmptyEntityAndSystem_GeneratorStats.cs">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\SingleComponentTestEntity\SingleComponentTestEntity_Domain.cs" />
+      <Compile Remove="TestData\Outputs\SingleComponentTestEntity\SingleComponentTestEntity_Entity.cs" />
+      <Compile Remove="TestData\Outputs\SingleComponentTestEntity\SingleComponentTestEntity_ExecuteSystem.cs" />
+      <Compile Remove="TestData\Outputs\SingleComponentTestEntity\SingleComponentTestEntity_GeneratorStats.cs" />
+      <Compile Remove="TestData\Outputs\SingleComponentTestEntity\SingleComponentTestEntity_IFirstComponent.cs" />
+      <Compile Remove="TestData\Outputs\SingleComponentTestEntity\SingleComponentTestEntity_IFirstComponentAspect.cs" />
+      <Compile Remove="TestData\Outputs\SingleComponentTestEntity\SingleComponentTestEntity_Matcher.cs" />
+      <Compile Remove="TestData\Outputs\SingleComponentTestEntity\SingleComponentTestEntity_ReactiveSystem.cs" />
+      <Compile Remove="TestData\Outputs\SingleComponentTestEntity\SingleComponentTestEntity_Setter.cs" />
+      <Compile Remove="TestData\Inputs\SingleComponentTestEntity\SingleComponentTestEntity_Definitions.cs" />
+      <Compile Remove="TestData\Outputs\SingleComponentEntity\SingleComponentEntity_Domain.cs" />
+      <AdditionalFiles Include="TestData\Outputs\SingleComponentEntity\SingleComponentEntity_Domain.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\SingleComponentEntity\SingleComponentEntity_Entity.cs" />
+      <AdditionalFiles Include="TestData\Outputs\SingleComponentEntity\SingleComponentEntity_Entity.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\SingleComponentEntity\SingleComponentEntity_ExecuteSystem.cs" />
+      <AdditionalFiles Include="TestData\Outputs\SingleComponentEntity\SingleComponentEntity_ExecuteSystem.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\SingleComponentEntity\SingleComponentEntity_GeneratorStats.cs" />
+      <AdditionalFiles Include="TestData\Outputs\SingleComponentEntity\SingleComponentEntity_GeneratorStats.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\SingleComponentEntity\SingleComponentEntity_IFirstComponent.cs" />
+      <AdditionalFiles Include="TestData\Outputs\SingleComponentEntity\SingleComponentEntity_IFirstComponent.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\SingleComponentEntity\SingleComponentEntity_IFirstComponentAspect.cs" />
+      <AdditionalFiles Include="TestData\Outputs\SingleComponentEntity\SingleComponentEntity_IFirstComponentAspect.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\SingleComponentEntity\SingleComponentEntity_Matcher.cs" />
+      <AdditionalFiles Include="TestData\Outputs\SingleComponentEntity\SingleComponentEntity_Matcher.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\SingleComponentEntity\SingleComponentEntity_ReactiveSystem.cs" />
+      <AdditionalFiles Include="TestData\Outputs\SingleComponentEntity\SingleComponentEntity_ReactiveSystem.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\SingleComponentEntity\SingleComponentEntity_Setter.cs" />
+      <AdditionalFiles Include="TestData\Outputs\SingleComponentEntity\SingleComponentEntity_Setter.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Inputs\SingleComponentEntity\SingleComponentEntity_Definitions.cs" />
+      <AdditionalFiles Include="TestData\Inputs\SingleComponentEntity\SingleComponentEntity_Definitions.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Inputs\PrimaryIndexComponent\PrimaryIndexComponent_Definitions.cs" />
+      <AdditionalFiles Include="TestData\Inputs\PrimaryIndexComponent\PrimaryIndexComponent_Definitions.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\PrimaryIndexComponent\PrimaryIndexComponent_Domain.cs" />
+      <AdditionalFiles Include="TestData\Outputs\PrimaryIndexComponent\PrimaryIndexComponent_Domain.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\PrimaryIndexComponent\PrimaryIndexComponent_Entity.cs" />
+      <AdditionalFiles Include="TestData\Outputs\PrimaryIndexComponent\PrimaryIndexComponent_Entity.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\PrimaryIndexComponent\PrimaryIndexComponent_FirstComponent.cs" />
+      <AdditionalFiles Include="TestData\Outputs\PrimaryIndexComponent\PrimaryIndexComponent_FirstComponent.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\PrimaryIndexComponent\PrimaryIndexComponent_FirstComponentAspect.cs" />
+      <AdditionalFiles Include="TestData\Outputs\PrimaryIndexComponent\PrimaryIndexComponent_FirstComponentAspect.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\PrimaryIndexComponent\PrimaryIndexComponent_FirstComponentPrimaryIndex.cs" />
+      <AdditionalFiles Include="TestData\Outputs\PrimaryIndexComponent\PrimaryIndexComponent_FirstComponentPrimaryIndex.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\PrimaryIndexComponent\PrimaryIndexComponent_Matcher.cs" />
+      <AdditionalFiles Include="TestData\Outputs\PrimaryIndexComponent\PrimaryIndexComponent_Matcher.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\PrimaryIndexComponent\PrimaryIndexComponent_SecondComponent.cs" />
+      <AdditionalFiles Include="TestData\Outputs\PrimaryIndexComponent\PrimaryIndexComponent_SecondComponent.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\PrimaryIndexComponent\PrimaryIndexComponent_SecondComponentAspect.cs" />
+      <AdditionalFiles Include="TestData\Outputs\PrimaryIndexComponent\PrimaryIndexComponent_SecondComponentAspect.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\PrimaryIndexComponent\PrimaryIndexComponent_SecondComponentPrimaryIndex.cs" />
+      <AdditionalFiles Include="TestData\Outputs\PrimaryIndexComponent\PrimaryIndexComponent_SecondComponentPrimaryIndex.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+      <Compile Remove="TestData\Outputs\PrimaryIndexComponent\PrimaryIndexComponent_Setter.cs" />
+      <AdditionalFiles Include="TestData\Outputs\PrimaryIndexComponent\PrimaryIndexComponent_Setter.cs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
     </ItemGroup>
 
 </Project>
