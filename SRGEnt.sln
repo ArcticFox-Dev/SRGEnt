@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.6.30114.105
@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SRGEnt-Generator-Unity", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SRGEnt-Generator.Tests", "tests\SRGEnt-Generator.Tests\SRGEnt-Generator.Tests.csproj", "{A603C2FE-3726-477D-9A90-D6AB901B04BD}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "NukeBuild\_build.csproj", "{143D4752-4385-4895-BD07-064C36A8D1D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{143D4752-4385-4895-BD07-064C36A8D1D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{143D4752-4385-4895-BD07-064C36A8D1D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C1345DE-7C66-45DC-937E-790CD5F34A3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4C1345DE-7C66-45DC-937E-790CD5F34A3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C1345DE-7C66-45DC-937E-790CD5F34A3A}.Debug|x64.ActiveCfg = Debug|Any CPU
