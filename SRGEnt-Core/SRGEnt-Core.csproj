@@ -6,10 +6,11 @@
     <AssemblyName>SRGEnt.Core</AssemblyName>
     <LangVersion>8</LangVersion>
     <PackageId>SRGEnt.Core</PackageId>
-    <Version>0.5.5</Version>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/ArcticFox-Dev/SRGEnt</RepositoryUrl>
     <Authors>Kazimierz Luska (ArcticFox)</Authors>
     <Copyright>Copyright $([System.DateTime]::Now.Year) Kazimierz Luska (ArcticFox)</Copyright>
-    <PackageDescription>This is the core part of the SRGEnt library.</PackageDescription>
+    <PackageDescription>SRGEnt.Core is one of the core dependencies of the SRGEnt library.</PackageDescription>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -18,8 +19,8 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <None Include="..\..\LICENSE.md" Pack="true" PackagePath=""/>
-    <None Include="..\..\README.md" Pack="true" PackagePath=""/>
+    <None Include="..\LICENSE.md" Pack="true" PackagePath=""/>
+    <None Include=".\README.md" Pack="true" PackagePath=""/>
   </ItemGroup>
 
   <ItemGroup>

@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\SRGEnt-Core\SRGEnt-Core.csproj" />
+    <ProjectReference Include="..\SRGEnt-Core\SRGEnt-Core.csproj" />
   </ItemGroup>
 
 </Project>

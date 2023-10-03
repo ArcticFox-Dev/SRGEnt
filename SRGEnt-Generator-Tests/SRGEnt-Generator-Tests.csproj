@@ -28,8 +28,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\SRGEnt-Core\SRGEnt-Core.csproj" />
-      <ProjectReference Include="..\..\src\SRGEnt-Generator\SRGEnt-Generator.csproj" />
+      <ProjectReference Include="..\SRGEnt-Core\SRGEnt-Core.csproj" />
+      <ProjectReference Include="..\SRGEnt-Generator\SRGEnt-Generator.csproj" />
     </ItemGroup>
 
     <ItemGroup>

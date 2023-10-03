@@ -73,11 +73,18 @@
             "type": "string",
             "enum": [
               "Clean",
+              "Get_Version",
+              "NuGet_Publish",
               "Package_Core",
               "Package_Generator",
               "PackForNuGet",
+              "Publish_Core",
+              "Publish_Generator",
+              "PublishCorePackages",
               "Restore",
-              "Test"
+              "Test",
+              "Test_Core",
+              "Test_Generator"
             ]
           }
         },
@@ -92,11 +99,18 @@
             "type": "string",
             "enum": [
               "Clean",
+              "Get_Version",
+              "NuGet_Publish",
               "Package_Core",
               "Package_Generator",
               "PackForNuGet",
+              "Publish_Core",
+              "Publish_Generator",
+              "PublishCorePackages",
               "Restore",
-              "Test"
+              "Test",
+              "Test_Core",
+              "Test_Generator"
             ]
           }
         },

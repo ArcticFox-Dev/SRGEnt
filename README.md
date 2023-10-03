@@ -1,4 +1,6 @@
-![SRGEnt-Logo](/Docs/Images/SRGENT_Logo.svg)
+<p align="center">
+    <img src="https://raw.githubusercontent.com/ArcticFox-Dev/SRGEnt/develop/Docs/Images/SRGENT_Logo.svg" alt="SRGEnt" title="SRGEnt"/>
+</p>
 
 <p align="center">
     <a href="https://discord.gg/aMUBu6t5">

@@ -6,11 +6,14 @@
     <AssemblyName>SRGEnt.Generator</AssemblyName>
     <LangVersion>8</LangVersion>
     <PackageId>SRGEnt.Generator</PackageId>
-    <Version>0.5.5</Version>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/ArcticFox-Dev/SRGEnt</RepositoryUrl>
     <Authors>Kazimierz Luska (ArcticFox)</Authors>
     <Copyright>Copyright $([System.DateTime]::Now.Year) Kazimierz Luska (ArcticFox)</Copyright>
-    <PackageDescription>This is the generator for the SRGEnt library.</PackageDescription>
+    <PackageDescription>SRGEnt.Generator is one of the core dependencies of the SRGEnt library.</PackageDescription>
   </PropertyGroup>
+  
+  
 
   <PropertyGroup>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
@@ -18,8 +21,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\LICENSE.md" Pack="true" PackagePath=""/>
-    <None Include="..\..\README.md" Pack="true" PackagePath=""/>
+    <None Include="..\LICENSE.md" Pack="true" PackagePath=""/>
+    <None Include=".\README.md" Pack="true" PackagePath=""/>
   </ItemGroup>
   
   <ItemGroup>
@@ -28,23 +31,5 @@
     <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
     <PackageReference Include="System.Reflection.Metadata" Version="5.0.0" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <!-- Generator Dependencies -->
-    <PackageReference Include="SRGEnt.Core" Version="0.5.0" PrivateAssets="all" GeneratePathProperty="true" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\SRGEnt-Core\SRGEnt-Core.csproj" />
-  </ItemGroup>
-  
-  <PropertyGroup>
-    <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
-  </PropertyGroup>
-  
-  <Target Name="GetDependencyTargetPaths">
-    <ItemGroup>
-      <TargetPathWithTargetPlatformMoniker Include="$(PKGSRGEnt_Core)\lib\netstandard2.0\SRGEnt.Core.dll" IncludeRuntimeDependency="false" />
-    </ItemGroup>
-  </Target>
+
 </Project>
