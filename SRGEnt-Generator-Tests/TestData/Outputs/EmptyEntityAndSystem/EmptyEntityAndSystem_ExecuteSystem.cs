@@ -3,9 +3,9 @@ using SRGEnt.Systems;
 
 namespace SRGEnt.Generated
 {
-    public abstract class TestExecuteSystem : ExecuteSystem<TestEntity, TestDomain, TestMatcher, TestAspectSetter>
+    public abstract class TestDomainExecuteSystem : ExecuteSystem<TestEntity, TestDomain, TestMatcher, TestAspectSetter>
     {
-        protected TestExecuteSystem(TestDomain domain, bool shouldSort = false) : base(domain, shouldSort)
+        protected TestDomainExecuteSystem(TestDomain domain, bool shouldSort = false) : base(domain, shouldSort)
         {
         }
     }

@@ -9,8 +9,6 @@ namespace SRGEnt.Generator.DataTypes
         public string EntityTypeName { get; }
         public string EntityMatcherName { get; }
         public string EntityAspectSetterName { get; }
-        public string ExecuteSystemName { get; }
-        public string ReactiveSystemName { get; }
         public List<Component> Components { get; }
 
         private readonly ITypeSymbol _symbol;
@@ -22,8 +20,6 @@ namespace SRGEnt.Generator.DataTypes
             var entityBaseName = EntityTypeName.Replace("Entity", "");
             EntityMatcherName = $"{entityBaseName}Matcher";
             EntityAspectSetterName = $"{entityBaseName}AspectSetter";
-            ExecuteSystemName = $"{entityBaseName}ExecuteSystem";
-            ReactiveSystemName = $"{entityBaseName}ReactiveSystem";
 
             Components = DatatypeUtils.ExtractComponents(symbol);
         }

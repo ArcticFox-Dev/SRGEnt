@@ -12,9 +12,9 @@ using SRGEnt.Systems;
 
 namespace SRGEnt.Generated
 {{
-    public abstract class {domain.Entity.ExecuteSystemName} : ExecuteSystem<{domain.Entity.EntityTypeName},{domain.DomainName},{domain.Entity.EntityMatcherName}, {domain.Entity.EntityAspectSetterName}>
+    public abstract class {domain.ExecuteSystemName} : ExecuteSystem<{domain.Entity.EntityTypeName},{domain.DomainName},{domain.Entity.EntityMatcherName}, {domain.Entity.EntityAspectSetterName}>
     {{
-        protected {domain.Entity.ExecuteSystemName}({domain.DomainName} domain, bool shouldSort = false) : base(domain, shouldSort)
+        protected {domain.ExecuteSystemName}({domain.DomainName} domain, bool shouldSort = false) : base(domain, shouldSort)
         {{
         }}
     }}
@@ -25,16 +25,16 @@ using SRGEnt.Systems;
 
 namespace SRGEnt.Generated
 {{
-    public abstract class {domain.Entity.ReactiveSystemName} : ReactiveSystem<{domain.Entity.EntityTypeName},{domain.DomainName},{domain.Entity.EntityMatcherName}, {domain.Entity.EntityAspectSetterName}>
+    public abstract class {domain.ReactiveSystemName} : ReactiveSystem<{domain.Entity.EntityTypeName},{domain.DomainName},{domain.Entity.EntityMatcherName}, {domain.Entity.EntityAspectSetterName}>
     {{
-        protected {domain.Entity.ReactiveSystemName}({domain.DomainName} domain, bool shouldSort = false) : base(domain, shouldSort)
+        protected {domain.ReactiveSystemName}({domain.DomainName} domain, bool shouldSort = false) : base(domain, shouldSort)
         {{
         }}
     }}
 }}
 ";
-            FormattedFileWriter.WriteSourceFile(context,executeSystem,domain.Entity.ExecuteSystemName);
-            FormattedFileWriter.WriteSourceFile(context,reactiveSystem,domain.Entity.ReactiveSystemName);
+            FormattedFileWriter.WriteSourceFile(context,executeSystem,domain.ExecuteSystemName);
+            FormattedFileWriter.WriteSourceFile(context,reactiveSystem,domain.ReactiveSystemName);
         }
     }
 }

@@ -7,6 +7,8 @@ namespace SRGEnt.Generator.DataTypes
     public class Domain
     {
         public string DomainName { get; }
+        public string ExecuteSystemName { get; }
+        public string ReactiveSystemName { get; }
         public Entity Entity { get; }
         public List<Component> Components { get; }
         
@@ -16,6 +18,8 @@ namespace SRGEnt.Generator.DataTypes
         {
             _symbol = symbol;
             DomainName = symbol.Name.Substring(1);
+            ExecuteSystemName = $"{DomainName}ExecuteSystem";
+            ReactiveSystemName = $"{DomainName}ReactiveSystem";
             Entity = entity;
             Components = DatatypeUtils.ExtractComponents(symbol);
         }
