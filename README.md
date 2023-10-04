@@ -159,27 +159,27 @@ An example ExecuteSystem (A simple system that operates on all entities that mat
 ``` C#
 using SRGEnt.Generated;
 
-public class FormalGreeter : PeopleDomainExecuteSystem
+public class FormalGreeter : PeopleExecuteSystem
 {
     public FormalGreeter(PeopleDomain domain, bool shouldSort = false) : base(domain, shouldSort)
     { }
 
-    protected override void SetMatcher(ref PersonMatcher matcher)
+    protected override void SetMatcher(ref PeopleMatcher matcher)
     { }
 
-    protected override void Execute(ReadOnlySpan<PersonEntity> entities)
+    protected override void Execute(ReadOnlySpan<PeopleEntity> entities)
     { }
 }
 
-public class CasualGreeter : PeopleDomainExecuteSystem
+public class CasualGreeter : PeopleExecuteSystem
 {
     public CasualGreeter(PeopleDomain domain, bool shouldSort = false) : base(domain, shouldSort)
     { }
 
-    protected override void SetMatcher(ref PersonMatcher matcher)
+    protected override void SetMatcher(ref PeopleMatcher matcher)
     { }
 
-    protected override void Execute(ReadOnlySpan<PersonEntity> entities)
+    protected override void Execute(ReadOnlySpan<PeopleEntity> entities)
     { }
 }
 ```
@@ -189,7 +189,7 @@ In the SetMatcher method we are deciding what types of entities we would want ou
 An example of that could look something like that:
 ``` C#
     // For FormalGreeter
-    protected override void SetMatcher(ref PersonMatcher matcher)
+    protected override void SetMatcher(ref PeopleMatcher matcher)
     {
         matcher.Requires
             .FirstName()
@@ -199,7 +199,7 @@ An example of that could look something like that:
     }
     
     // For CasualGreeter
-    protected override void SetMatcher(ref PersonMatcher matcher)
+    protected override void SetMatcher(ref PeopleMatcher matcher)
     {
         matcher.Requires
             .IsFriend()
@@ -216,7 +216,7 @@ After that we would move on to implementing our systems logic in the Execute met
 An example of which could look like this:
 ``` C#
     // For FormalGreeter
-    protected override void Execute(ReadOnlySpan<PersonEntity> entities)
+    protected override void Execute(ReadOnlySpan<PeopleEntity> entities)
     {
         foreach (var person in entities)
         {
@@ -225,7 +225,7 @@ An example of which could look like this:
     }
     
     //For CasualGreeter
-    protected override void Execute(ReadOnlySpan<PersonEntity> entities)
+    protected override void Execute(ReadOnlySpan<PeopleEntity> entities)
     {
         foreach (var friend in entities)
         {
@@ -240,12 +240,12 @@ Your Systems code should look something like this now:
 ``` C#
 using SRGEnt.Generated;
 
-public class FormalGreeter : PeopleDomainExecuteSystem
+public class FormalGreeter : PeopleExecuteSystem
 {
     public FormalGreeter(PeopleDomain domain, bool shouldSort = false) : base(domain, shouldSort)
     { }
 
-    protected override void SetMatcher(ref PersonMatcher matcher)
+    protected override void SetMatcher(ref PeopleMatcher matcher)
     {
         matcher.Requires
             .FirstName()
@@ -254,7 +254,7 @@ public class FormalGreeter : PeopleDomainExecuteSystem
             .IsFriend();
     }
 
-    protected override void Execute(ReadOnlySpan<PersonEntity> entities)
+    protected override void Execute(ReadOnlySpan<PeopleEntity> entities)
     {
         foreach (var person in entities)
         {
@@ -263,12 +263,12 @@ public class FormalGreeter : PeopleDomainExecuteSystem
     }
 }
 
-public class CasualGreeter : PeopleDomainExecuteSystem
+public class CasualGreeter : PeopleExecuteSystem
 {
     public CasualGreeter(PeopleDomain domain, bool shouldSort = false) : base(domain, shouldSort)
     { }
 
-    protected override void SetMatcher(ref PersonMatcher matcher)
+    protected override void SetMatcher(ref PeopleMatcher matcher)
     {
         matcher.Requires
             .IsFriend()
@@ -277,7 +277,7 @@ public class CasualGreeter : PeopleDomainExecuteSystem
             .Nickname();
     }
     
-    protected override void Execute(ReadOnlySpan<PersonEntity> entities)
+    protected override void Execute(ReadOnlySpan<PeopleEntity> entities)
     {
         foreach (var friend in entities)
         {
@@ -576,7 +576,7 @@ public interface ICharacterEntity
 
 public class MoveCharacters : CharacterExecuteSystem
 {
-   public MoveCharacters(MyFirstDomain domain) : base(domain)
+   public MoveCharacters(CharacterDomain domain) : base(domain)
     {}
 
     protected override void SetMatcher(ref CharacterMatcher matcher)
