@@ -12,14 +12,22 @@
     <Copyright>Copyright $([System.DateTime]::Now.Year) Kazimierz Luska (ArcticFox)</Copyright>
     <PackageDescription>SRGEnt.Generator is one of the core dependencies of the SRGEnt library.</PackageDescription>
   </PropertyGroup>
-  
-  
 
   <PropertyGroup>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild> <!-- Generates a package at build -->
+    <IncludeBuildOutput>false</IncludeBuildOutput> <!-- Do not include the generator as a lib dependency -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Package the generator in the analyzer directory of the nuget package -->
+    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+  </ItemGroup>
+  
   <ItemGroup>
     <None Include="..\LICENSE.md" Pack="true" PackagePath=""/>
     <None Include=".\README.md" Pack="true" PackagePath=""/>
@@ -31,5 +39,5 @@
     <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
     <PackageReference Include="System.Reflection.Metadata" Version="5.0.0" />
   </ItemGroup>
-
+  
 </Project>
