@@ -6,16 +6,16 @@ namespace SRGEnt.Generator
 {
     public static class AspectSetterGenerator
     {
-        public static void GenerateEntityAspectSetter(GeneratorExecutionContext context, Entity entity)
+        public static void GenerateEntityAspectSetter(GeneratorExecutionContext context, Domain domain)
         {
-            var entitySymbolName = entity.EntityTypeName;
-            var matcherSymbolName = entity.EntityMatcherName;
-            var setterSymbolName = entity.EntityAspectSetterName;
+            var entitySymbolName = domain.DomainEntityName;
+            var matcherSymbolName = domain.EntityMatcherName;
+            var setterSymbolName = domain.EntityAspectSetterName;
 
             var propertyBuilder = new StringBuilder();
             var interfaceListBuilder = new StringBuilder();
 
-            foreach (var component in entity.Components)
+            foreach (var component in domain.Entity.Components)
             {
                 interfaceListBuilder.Append($", I{component.Name}Aspect<{setterSymbolName}>");
                 propertyBuilder.AppendLine($@"        public {setterSymbolName} {component.Name}()

@@ -6,9 +6,13 @@ namespace SRGEnt.Generator.DataTypes
 {
     public class Domain
     {
-        public string DomainName { get; }
+        public string DomainFullName { get; }
+        public string DomainShortName { get; }
+        public string DomainEntityName { get; }
         public string ExecuteSystemName { get; }
         public string ReactiveSystemName { get; }
+        public string EntityMatcherName { get; }
+        public string EntityAspectSetterName { get; }
         public Entity Entity { get; }
         public List<Component> Components { get; }
         
@@ -17,9 +21,14 @@ namespace SRGEnt.Generator.DataTypes
         public Domain(ITypeSymbol symbol, Entity entity)
         {
             _symbol = symbol;
-            DomainName = symbol.Name.Substring(1);
-            ExecuteSystemName = $"{DomainName}ExecuteSystem";
-            ReactiveSystemName = $"{DomainName}ReactiveSystem";
+            DomainFullName = symbol.Name.StartsWith("I") ? symbol.Name.Substring(1) : symbol.Name;
+            DomainShortName = DomainFullName.Replace("Domain", "");
+            DomainEntityName = $"{DomainShortName}Entity";
+            ExecuteSystemName = $"{DomainShortName}ExecuteSystem";
+            ReactiveSystemName = $"{DomainShortName}ReactiveSystem";
+            EntityMatcherName = $"{DomainShortName}Matcher";
+            EntityAspectSetterName = $"{DomainShortName}AspectSetter";
+            
             Entity = entity;
             Components = DatatypeUtils.ExtractComponents(symbol);
         }

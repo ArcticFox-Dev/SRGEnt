@@ -5,7 +5,7 @@ namespace SRGEnt.Generator
 {
     public static class EntityMatcherGenerator
     {
-        public static void GenerateEntityMatcher(GeneratorExecutionContext context, Entity entity)
+        public static void GenerateEntityMatcher(GeneratorExecutionContext context, Domain domain)
         {
             var matcher =  $@"{GeneratorConstants.GeneratorHeader}
 //using SRGEnt;
@@ -14,15 +14,15 @@ using SRGEnt.Interfaces;
 
 namespace SRGEnt.Generated
 {{
-    public class {entity.EntityMatcherName} : AspectMatcher, IAspectMatcher<{entity.EntityAspectSetterName}>
+    public class {domain.EntityMatcherName} : AspectMatcher, IAspectMatcher<{domain.EntityAspectSetterName}>
     {{
-        private static readonly Aspect _empty = new Aspect({entity.EntityTypeName}.AspectSize);
-        public {entity.EntityMatcherName}() : base({entity.EntityTypeName}.AspectSize)
+        private static readonly Aspect _empty = new Aspect({domain.DomainEntityName}.AspectSize);
+        public {domain.EntityMatcherName}() : base({domain.DomainEntityName}.AspectSize)
         {{ }}
 
-        public {entity.EntityAspectSetterName} Requires => new {entity.EntityAspectSetterName}(this, Required);
-        public {entity.EntityAspectSetterName} CannotHave => new {entity.EntityAspectSetterName}(this, Forbidden);
-        public {entity.EntityAspectSetterName} ShouldHaveAtLeastOneOf => new {entity.EntityAspectSetterName}(this, AnyOf);
+        public {domain.EntityAspectSetterName} Requires => new {domain.EntityAspectSetterName}(this, Required);
+        public {domain.EntityAspectSetterName} CannotHave => new {domain.EntityAspectSetterName}(this, Forbidden);
+        public {domain.EntityAspectSetterName} ShouldHaveAtLeastOneOf => new {domain.EntityAspectSetterName}(this, AnyOf);
 
         public void RecalculateHash()
         {{
@@ -33,7 +33,7 @@ namespace SRGEnt.Generated
     }}
 }}
 ";
-            FormattedFileWriter.WriteSourceFile(context,matcher,entity.EntityMatcherName);
+            FormattedFileWriter.WriteSourceFile(context,matcher,domain.EntityMatcherName);
         }
     }    
 }

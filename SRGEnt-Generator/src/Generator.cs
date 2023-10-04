@@ -57,8 +57,8 @@ namespace SRGEnt.Generator
                     var domain = nameDomainPair.Value;
                     DomainGenerator.GenerateDomain(context, domain, componentInterfaceGenerator);
                     EntityGenerator.GenerateEntity(context, domain, componentInterfaceGenerator);
-                    AspectSetterGenerator.GenerateEntityAspectSetter(context, domain.Entity);
-                    EntityMatcherGenerator.GenerateEntityMatcher(context, domain.Entity);
+                    AspectSetterGenerator.GenerateEntityAspectSetter(context, domain);
+                    EntityMatcherGenerator.GenerateEntityMatcher(context, domain);
                     AbstractSystemGenerator.GenerateAbstractSystems(context,domain);
                 }
             }

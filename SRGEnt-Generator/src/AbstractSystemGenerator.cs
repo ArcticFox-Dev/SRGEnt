@@ -12,9 +12,9 @@ using SRGEnt.Systems;
 
 namespace SRGEnt.Generated
 {{
-    public abstract class {domain.ExecuteSystemName} : ExecuteSystem<{domain.Entity.EntityTypeName},{domain.DomainName},{domain.Entity.EntityMatcherName}, {domain.Entity.EntityAspectSetterName}>
+    public abstract class {domain.ExecuteSystemName} : ExecuteSystem<{domain.DomainEntityName},{domain.DomainFullName},{domain.EntityMatcherName}, {domain.EntityAspectSetterName}>
     {{
-        protected {domain.ExecuteSystemName}({domain.DomainName} domain, bool shouldSort = false) : base(domain, shouldSort)
+        protected {domain.ExecuteSystemName}({domain.DomainFullName} domain, bool shouldSort = false) : base(domain, shouldSort)
         {{
         }}
     }}
@@ -25,9 +25,9 @@ using SRGEnt.Systems;
 
 namespace SRGEnt.Generated
 {{
-    public abstract class {domain.ReactiveSystemName} : ReactiveSystem<{domain.Entity.EntityTypeName},{domain.DomainName},{domain.Entity.EntityMatcherName}, {domain.Entity.EntityAspectSetterName}>
+    public abstract class {domain.ReactiveSystemName} : ReactiveSystem<{domain.DomainEntityName},{domain.DomainFullName},{domain.EntityMatcherName}, {domain.EntityAspectSetterName}>
     {{
-        protected {domain.ReactiveSystemName}({domain.DomainName} domain, bool shouldSort = false) : base(domain, shouldSort)
+        protected {domain.ReactiveSystemName}({domain.DomainFullName} domain, bool shouldSort = false) : base(domain, shouldSort)
         {{
         }}
     }}

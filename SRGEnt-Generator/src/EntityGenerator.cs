@@ -9,7 +9,7 @@ namespace SRGEnt.Generator
         public static void GenerateEntity(GeneratorExecutionContext context, Domain domain,
             ComponentInterfacesGenerator componentInterfacesGenerator)
         {
-            var entityName = domain.Entity.EntityTypeName;
+            var entityName = domain.DomainEntityName;
 
             var componentIndicesBlockBuilder = new StringBuilder();
             var propertyBlockBuilder = new StringBuilder();
@@ -27,7 +27,7 @@ namespace SRGEnt.Generator
                 if (component.IsObservable && component.ObserverScope == "Entity")
                 {
                     observedComponentBlockBuilder.AppendLine(
-                        $@"        public {component.Name}ObserverToken<{domain.Entity.EntityTypeName},{component.Type}> Observe{component.Name}(Action<{domain.Entity.EntityTypeName},{component.Type},ComponentEventType> handler)
+                        $@"        public {component.Name}ObserverToken<{entityName},{component.Type}> Observe{component.Name}(Action<{entityName},{component.Type},ComponentEventType> handler)
         {{
             return _domain.Observe{component.Name}(this,handler);
         }}");
@@ -48,9 +48,9 @@ namespace SRGEnt.Generated
         public const int ComponentCount = {domain.Entity.Components.Count};
         public const int AspectSize = {1 + domain.Entity.Components.Count / 8};
 
-        private readonly {domain.DomainName} _domain;
+        private readonly {domain.DomainFullName} _domain;
 
-        public {entityName}({domain.DomainName} domain, int index, long uId)
+        public {entityName}({domain.DomainFullName} domain, int index, long uId)
         {{
             _domain = domain;
             UId = uId;
@@ -58,7 +58,7 @@ namespace SRGEnt.Generated
         }}
 
 {GenerateIEntityBlock()}
-{GenerateEntityEqualityBlock(domain.Entity)}
+{GenerateEntityEqualityBlock(domain)}
 {propertyBlockBuilder}
 {observedComponentBlockBuilder}
     }}
@@ -122,16 +122,16 @@ namespace SRGEnt.Generated
             }
         }
 
-        private static string GenerateEntityEqualityBlock(Entity entity)
+        private static string GenerateEntityEqualityBlock(Domain domain)
         {
-            return $@"        public bool Equals({entity.EntityTypeName} other)
+            return $@"        public bool Equals({domain.DomainEntityName} other)
         {{
             return UId == other.UId;
         }}
 
         public override bool Equals(object obj)
         {{
-            return obj is {entity.EntityTypeName} other && Equals(other);
+            return obj is {domain.DomainEntityName} other && Equals(other);
         }}
 
         public override int GetHashCode()

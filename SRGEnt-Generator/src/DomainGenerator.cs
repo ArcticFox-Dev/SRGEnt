@@ -9,10 +9,10 @@ namespace SRGEnt.Generator
     {
         public static void GenerateDomain(GeneratorExecutionContext context, Domain domain, ComponentInterfacesGenerator componentInterfacesGenerator)
         {
-            var domainSymbolName = domain.DomainName;
-            var entityName = domain.Entity.EntityTypeName;
-            var matcherName = domain.Entity.EntityMatcherName;
-            var aspectSetterName = domain.Entity.EntityAspectSetterName;
+            var domainSymbolName = domain.DomainFullName;
+            var entityName = domain.DomainEntityName;
+            var matcherName = domain.EntityMatcherName;
+            var aspectSetterName = domain.EntityAspectSetterName;
 
             var indexStorage = new StringBuilder();
             var indexGetters = new StringBuilder();
@@ -46,14 +46,14 @@ namespace SRGEnt.Generator
                 if (component.IsIndex)
                 {
                     indexStorage.AppendLine(
-                        ComponentIndexBlockGenerator.GenerateComponentIndexContainer(component, domain.Entity));
+                        ComponentIndexBlockGenerator.GenerateComponentIndexContainer(component, domain));
                     indexGetters.AppendLine(
-                        ComponentIndexBlockGenerator.GenerateComponentIndexGetter(component, domain.Entity));
+                        ComponentIndexBlockGenerator.GenerateComponentIndexGetter(component, domain));
                     indexBlocks.AppendLine(
-                        ComponentIndexBlockGenerator.GenerateComponentIndexUpdaters(component, domain.Entity));
+                        ComponentIndexBlockGenerator.GenerateComponentIndexUpdaters(component, domain));
                     componentInterfacesGenerator.GenerateIndexInterfaceIfNotPresent(ref context, component);
                     domainIndexInterfaces.Append(
-                        $", {component.IndexInterfaceName}<{domain.Entity.EntityTypeName},{component.Type}>");
+                        $", {component.IndexInterfaceName}<{domain.DomainEntityName},{component.Type}>");
                     removeFromIndexes.AppendLine($@"                RemoveFrom{component.Name}Index(entity);");
                     updateIndexesBlock.AppendLine($@"if(Has{component.Name}(entity))
 {{
@@ -68,7 +68,7 @@ namespace SRGEnt.Generator
                     componentInterfacesGenerator.GenerateEntityComponentObserverToken(context, domain, component);
                     observerRegistration.AppendLine(GenerateEntityComponentObserverRegistrationBody(domain, component));
                     observerStorage.AppendLine(
-                        $"        private Dictionary<{domain.Entity.EntityTypeName}, ComponentEventType> _{component.Name.ToCamelCase()}Events = new();");
+                        $"        private Dictionary<{domain.DomainEntityName}, ComponentEventType> _{component.Name.ToCamelCase()}Events = new();");
                     removeObservers.AppendLine(
                         $@"                _{component.Name.ToCamelCase()}Events.Remove(entity);");
                     updateObserverEvents.AppendLine(
@@ -86,7 +86,7 @@ namespace SRGEnt.Generator
             return _{component.Name.ToCamelCase()}Observers.Count > 0;
         }}");
                         observerStorage.AppendLine(
-                            $"        private List<WeakReference<{component.Name}ObserverToken<{domain.Entity.EntityTypeName},{component.Type}>>> _{component.Name.ToCamelCase()}Observers = new();");
+                            $"        private List<WeakReference<{component.Name}ObserverToken<{domain.DomainEntityName},{component.Type}>>> _{component.Name.ToCamelCase()}Observers = new();");
                         observerTrigger.AppendLine(
                             $@"            foreach(var observerRef in _{component.Name.ToCamelCase()}Observers)
             {{
@@ -111,7 +111,7 @@ namespace SRGEnt.Generator
                         removeObservers.AppendLine(
                             $@"                if(_{component.Name.ToCamelCase()}Observers.ContainsKey(entity)) _{component.Name.ToCamelCase()}Observers.Remove(entity);");
                         observerStorage.AppendLine(
-                            $"        private Dictionary<{domain.Entity.EntityTypeName},List<WeakReference<{component.Name}ObserverToken<{domain.Entity.EntityTypeName},{component.Type}>>>> _{component.Name.ToCamelCase()}Observers = new();");
+                            $"        private Dictionary<{domain.DomainEntityName},List<WeakReference<{component.Name}ObserverToken<{domain.DomainEntityName},{component.Type}>>>> _{component.Name.ToCamelCase()}Observers = new();");
                         observerTrigger.AppendLine(
                             $@"            foreach(var componentEvent in _{component.Name.ToCamelCase()}Events)
             {{
@@ -189,9 +189,9 @@ namespace SRGEnt.Generated
 {componentArrays}
 {indexStorage}
 {observerStorage}
-        public {domain.DomainName}(int initialEntityCapacity)
+        public {domain.DomainFullName}(int initialEntityCapacity)
         {{
-            Debug.Assert(initialEntityCapacity > 0,""Trying to create {domain.DomainName} instance with initial capacity less than one."");
+            Debug.Assert(initialEntityCapacity > 0,""Trying to create {domain.DomainFullName} instance with initial capacity less than one."");
 
             CurrentCapacity = initialEntityCapacity;
             CurrentEntityCount = 0;
@@ -251,7 +251,7 @@ namespace SRGEnt.Generated
         {{
             if(_destroyedEntities.Count == 0) return;
 
-            var entities = new {domain.Entity.EntityTypeName}[_destroyedEntities.Count];
+            var entities = new {domain.DomainEntityName}[_destroyedEntities.Count];
             _destroyedEntities.CopyTo(entities);
             Array.Sort(entities, (a,b) => b.Index.CompareTo(a.Index));
             foreach (var entity in entities)
@@ -453,15 +453,15 @@ namespace SRGEnt.Generated
         private static string GenerateEntityLevelEntityComponentObserverRegistration(Domain domain, Component component)
         {
             return
-                $@"        public {component.Name}ObserverToken<{domain.Entity.EntityTypeName},{component.Type}> Observe{component.Name}({domain.Entity.EntityTypeName} entity, Action<{domain.Entity.EntityTypeName}, {component.Type}, ComponentEventType> handler)
+                $@"        public {component.Name}ObserverToken<{domain.DomainEntityName},{component.Type}> Observe{component.Name}({domain.DomainEntityName} entity, Action<{domain.DomainEntityName}, {component.Type}, ComponentEventType> handler)
         {{
             if(!_{component.Name.ToCamelCase()}Observers.ContainsKey(entity))
             {{
-                _{component.Name.ToCamelCase()}Observers.Add(entity, new List<WeakReference<{component.Name}ObserverToken<{domain.Entity.EntityTypeName},{component.Type}>>>());
+                _{component.Name.ToCamelCase()}Observers.Add(entity, new List<WeakReference<{component.Name}ObserverToken<{domain.DomainEntityName},{component.Type}>>>());
             }}
-            var observerToken = new {component.Name}ObserverToken<{domain.Entity.EntityTypeName},{component.Type}>(handler);
+            var observerToken = new {component.Name}ObserverToken<{domain.DomainEntityName},{component.Type}>(handler);
             
-            _{component.Name.ToCamelCase()}Observers[entity].Add(new WeakReference<{component.Name}ObserverToken<{domain.Entity.EntityTypeName},{component.Type}>>(observerToken));
+            _{component.Name.ToCamelCase()}Observers[entity].Add(new WeakReference<{component.Name}ObserverToken<{domain.DomainEntityName},{component.Type}>>(observerToken));
             return observerToken;
         }}";
         }
@@ -469,10 +469,10 @@ namespace SRGEnt.Generated
         private static string GenerateDomainLevelEntityComponentObserverRegistration(Domain domain, Component component)
         {
             return
-                $@"        public {component.Name}ObserverToken<{domain.Entity.EntityTypeName},{component.Type}> Observe{component.Name}(Action<{domain.Entity.EntityTypeName}, {component.Type}, ComponentEventType> handler)
+                $@"        public {component.Name}ObserverToken<{domain.DomainEntityName},{component.Type}> Observe{component.Name}(Action<{domain.DomainEntityName}, {component.Type}, ComponentEventType> handler)
         {{
-            var observerToken = new {component.Name}ObserverToken<{domain.Entity.EntityTypeName},{component.Type}>(handler);
-            _{component.Name.ToCamelCase()}Observers.Add(new WeakReference<{component.Name}ObserverToken<{domain.Entity.EntityTypeName},{component.Type}>>(observerToken));
+            var observerToken = new {component.Name}ObserverToken<{domain.DomainEntityName},{component.Type}>(handler);
+            _{component.Name.ToCamelCase()}Observers.Add(new WeakReference<{component.Name}ObserverToken<{domain.DomainEntityName},{component.Type}>>(observerToken));
             return observerToken;
         }}";
         }
