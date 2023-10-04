@@ -87,10 +87,7 @@ class Build : NukeBuild
     Target Publish_Core => _ => _
         .DependsOn(Package_Core)
         .Executes(() =>
-        {
-            DotNetTasks.DotNetPublish(settings => settings
-                .SetProcessWorkingDirectory(Solution.SRGEnt_Core.Directory));
-        });
+        { });
 
     Target Test_Generator => run => run
         .DependsOn(Restore)
@@ -113,10 +110,7 @@ class Build : NukeBuild
     Target Publish_Generator => _ => _
         .DependsOn(Package_Generator)
         .Executes(() =>
-        {
-            DotNetTasks.DotNetPublish(settings => settings
-                .SetProcessWorkingDirectory(Solution.SRGEnt_Generator.Directory));
-        });
+        { });
 
     Target PackForNuGet => run => run
         .DependsOn(Package_Core, Package_Generator);
@@ -128,8 +122,13 @@ class Build : NukeBuild
         .DependsOn(PublishCorePackages)
         .Executes(() =>
         {
-            DotNetTasks.DotNet($"add reference SRGEnt.Core -v {_version.ToNormalizedString()}", Solution.SRGEnt.Directory);
-            DotNetTasks.DotNet($"add reference SRGEnt.Generator -v {_version.ToNormalizedString()}", Solution.SRGEnt.Directory);
+            DotNetTasks.DotNet($"add package SRGEnt.Core -v {_version.ToNormalizedString()}", Solution.SRGEnt.Directory);
+            DotNetTasks.DotNet($"add package SRGEnt.Generator -v {_version.ToNormalizedString()}", Solution.SRGEnt.Directory);
+            Log.Information("Dependencies Added");
+            DotNetTasks.DotNetPack(settings => settings
+                .SetProcessWorkingDirectory(Solution.SRGEnt.Directory)
+                .SetVersion(_version.ToNormalizedString())
+                .SetConfiguration(Configuration.Release));
         });
 
 }
