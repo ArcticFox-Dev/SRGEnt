@@ -11,6 +11,9 @@ nupkg/
 # Rider
 .idea
 
+# Nuke
+.nuke/temp/
+
 # User-specific files
 *.suo
 *.user

@@ -1,4 +1,6 @@
-![SRGEnt-Logo](/Docs/Images/SRGENT_Logo.svg)
+<p align="center">
+    <img src="https://raw.githubusercontent.com/ArcticFox-Dev/SRGEnt/develop/Docs/Images/SRGENT_Logo.svg" alt="SRGEnt" title="SRGEnt"/>
+</p>
 
 <p align="center">
     <a href="https://discord.gg/aMUBu6t5">
@@ -23,11 +25,11 @@ That said it is easy to set up and the minimal amount of boilerplate to write ma
 
 There is indeed plenty other ECS frameworks/libraries for C#, but none of them were a 100% fit for me.
 
-Most of them either require a lot of boilerplate, are complicated to use, debug, or their code is hard to read. Others use tools that are hard to configure/use or are not easy to adapt to cusom workflows.
+Most of them either require a lot of boilerplate, are complicated to use, debug, or their code is hard to read. Others use tools that are hard to configure/use or are not easy to adapt to custom workflows.
 
 When I decided to write SRGEnt I had two main objectives in mind.
 
-- Create a no fuss library that will be as simple to use as importing a NuGet or Unity package, and will will be able to work with custom build pipelines that a lot of bigger projects have.
+- Create a no fuss library that will be as simple to use as importing a NuGet or Unity package, and will be able to work with custom build pipelines that a lot of bigger projects have.
 - Create a simple api which would give you the benefits of an ECS architecture but would be somewhat familiar to a developer who wants to learn ECS but is coming from an OOP world.
 
 If either of those are on your mind when choosing libraries to work with give SRGEnt a go and let me know what you think in the discord channel.
@@ -35,7 +37,15 @@ If either of those are on your mind when choosing libraries to work with give SR
 # Getting Started
 
 ## Installation
----
+
+### DotNet Projects
+
+If you are working in a DotNet ecosystem that supports NuGet, importing SRGEnt should be as simple as adding any of your other packages.
+
+If you are using an IDE and it has a NuGet dependency manager just use that and search for SRGEnt. You only need to import the top level package as it will pull in all of it's dependencies and it will do so with the versions with which it was built and tested.
+
+If you're a console dotnet dev then your trusty ```dotnet add package SRGEnt``` will get you all ready to go.
+
 ### Unity
 
 **Prerequisites:**
@@ -51,6 +61,8 @@ I will try and add extra packages with the support for the previous Unity versio
 If you can't wait for the next release and need it working now, hit me up on discord and I will try to help you out with the setup as it depends on which Unity version the project is built on.
 
 **Adding to your project**
+
+***Manual Approach (Not recommended)***
 
 - Download the package you need from the latest release on github.
     
@@ -70,11 +82,16 @@ If you can't wait for the next release and need it working now, hit me up on dis
     
 - If you do. You are good to go.
 
-### DotNet Projects
+***Using UPM (Recommended)***
 
-**Coming Soon**
+SRGEnt is now available via Open UPM making its installation almost as easy as downloading a native Unity package!!  
+I strongly recommend using it to add it to your project. Instructions can be found on [**this**](https://openupm.com/packages/net.srgent.generator/) page.
 
-##  Code
+##  Your first SRGEnt Code
+
+To test the library out I would suggest creating a simple Console app and pull in the SRGEnt dependency into it.
+
+After that we can get down to coding.
 
 Any self respecting ECS library will let you define your components and systems, some of them will ask you to define entities as well.
 SRGEnt is slightly different, in order to work with the library you will have to define your Entities, Domains and of course write your Systems.
@@ -91,12 +108,12 @@ Like so:
 
 ``` C#
 [EntityDefinition]
-public interface IMyFirstEntity
+public interface IPersonEntity
 {
-    string Name {get;}
-    float Speed {get;}
-    float DistanceTraveled {get;}
-    bool Grounded {get;}
+    string FirstName { get; }
+    string LastName { get; }
+    string Nickname { get; }
+    bool IsFriend { get; }
 }
 ```
 
@@ -113,8 +130,8 @@ To define one you will need another interface this time decorated with a DomainD
 Like so:
 
 ``` C#
-[DomainDefinition(typeof(IMyEntity))]
-public interface IMyFirstDomain
+[DomainDefinition(typeof(IPersonEntity))]
+public interface IPeopleDomain
 {}
 ```
 
@@ -124,32 +141,46 @@ If everything works correctly roslyn should find those interfaces and write a lo
 
 The generated code will include the Entity, Domain and some abstract system base classes that in our case would be called:
 ``` C#
-public class MyFirstEntity
+public class PersonEntity
 {}
 
-public class MyFirstDomain
+public class PeopleDomain
 {}
 
-public abstract class MyFirstExecuteSystem
+public abstract class PeopleExecuteSystem
 {}
 
-public abstract class MyFirstReactiveSystem
+public abstract class PeopleReactiveSystem
 {}
 ```
 
 An example ExecuteSystem (A simple system that operates on all entities that match it's selection criteria) would look something like the one below.
 
 ``` C#
-public class MoveForwardSystem : MyFirstExecuteSystem
+using SRGEnt.Generated;
+
+public class FormalGreeter : PeopleExecuteSystem
 {
-    public MoveForwardSystem(MyFirstDomain domain) : base(domain)
-    {}
+    public FormalGreeter(PeopleDomain domain, bool shouldSort = false) : base(domain, shouldSort)
+    { }
 
-    protected override void SetMatcher(ref MyFirstMatcher matcher)
-    {}
+    protected override void SetMatcher(ref PeopleMatcher matcher)
+    { }
 
-    protected override void Execute(ReadOnlySpan<MyFirstEntity> entities)
-    {}
+    protected override void Execute(ReadOnlySpan<PeopleEntity> entities)
+    { }
+}
+
+public class CasualGreeter : PeopleExecuteSystem
+{
+    public CasualGreeter(PeopleDomain domain, bool shouldSort = false) : base(domain, shouldSort)
+    { }
+
+    protected override void SetMatcher(ref PeopleMatcher matcher)
+    { }
+
+    protected override void Execute(ReadOnlySpan<PeopleEntity> entities)
+    { }
 }
 ```
 
@@ -157,12 +188,24 @@ In the SetMatcher method we are deciding what types of entities we would want ou
 
 An example of that could look something like that:
 ``` C#
-    protected override void SetMatcher(ref MyFirstMatcher matcher)
+    // For FormalGreeter
+    protected override void SetMatcher(ref PeopleMatcher matcher)
     {
         matcher.Requires
-        .Speed()
-        .CannotHave
-        .Grounded();
+            .FirstName()
+            .LastName()
+            .CannotHave
+            .IsFriend();
+    }
+    
+    // For CasualGreeter
+    protected override void SetMatcher(ref PeopleMatcher matcher)
+    {
+        matcher.Requires
+            .IsFriend()
+            .ShouldHaveAtLeastOneOf
+            .FirstName()
+            .Nickname();
     }
 ```
 
@@ -172,23 +215,21 @@ After that we would move on to implementing our systems logic in the Execute met
 
 An example of which could look like this:
 ``` C#
-    protected override void Execute(ReadOnlySpan<MyFirstEntity> entities)
+    // For FormalGreeter
+    protected override void Execute(ReadOnlySpan<PeopleEntity> entities)
     {
-        foreach(var entity in entities)
+        foreach (var person in entities)
         {
-            if(entity.HasDistanceTraveled)
-            {
-                // If the entity already has distance traveled
-                // we can use the += to increment it.
-                entity.DistanceTraveled += entity.Speed;
-            }
-            else
-            {
-                // Because distance traveled is not yet defined for
-                // this entity, we cannot use the += increment 
-                // operator and have to set the initial value first.
-                entity.DistanceTraveled = entity.Speed;
-            }
+            Console.WriteLine($"Hello {person.FirstName} {person.LastName}");
+        }
+    }
+    
+    //For CasualGreeter
+    protected override void Execute(ReadOnlySpan<PeopleEntity> entities)
+    {
+        foreach (var friend in entities)
+        {
+            Console.WriteLine($"Hey {(friend.HasNickname ? friend.Nickname : friend.FirstName)}");
         }
     }
 ```
@@ -197,50 +238,159 @@ And that's about it for the basics of custom code.
 
 Your Systems code should look something like this now:
 ``` C#
-using UnityEngine;
 using SRGEnt.Generated;
 
-public class MoveForwardSystem : MyFirstExecuteSystem
+public class FormalGreeter : PeopleExecuteSystem
 {
-    public MoveForwardSystem(MyFirstDomain domain) : base(domain)
-    {}
+    public FormalGreeter(PeopleDomain domain, bool shouldSort = false) : base(domain, shouldSort)
+    { }
 
-    protected override void SetMatcher(ref MyFirstMatcher matcher)
+    protected override void SetMatcher(ref PeopleMatcher matcher)
     {
         matcher.Requires
-        .Speed()
-        .CannotHave
-        .Grounded();
+            .FirstName()
+            .LastName()
+            .CannotHave
+            .IsFriend();
     }
 
-    protected override void Execute(ReadOnlySpan<MyFirstEntity> entities)
+    protected override void Execute(ReadOnlySpan<PeopleEntity> entities)
     {
-        foreach(var entity in entities)
+        foreach (var person in entities)
         {
-            if(entity.HasDistanceTraveled)
-            {
-                // If the entity already has distance traveled
-                // we can use the += to increment it.
-                entity.DistanceTraveled += entity.Speed;
-            }
-            else
-            {
-                // Because distance traveled is not yet defined for
-                // this entity, we cannot use the += increment 
-                // operator and have to set the initial value first.
-                entity.DistanceTraveled = entity.Speed;
-            }
-            Debug.Log($"(Entity - {entity.UId} moved {entity.DistanceTraveled} so far.");
+            Console.WriteLine($"Hello {person.FirstName} {person.LastName}");
+        }
+    }
+}
+
+public class CasualGreeter : PeopleExecuteSystem
+{
+    public CasualGreeter(PeopleDomain domain, bool shouldSort = false) : base(domain, shouldSort)
+    { }
+
+    protected override void SetMatcher(ref PeopleMatcher matcher)
+    {
+        matcher.Requires
+            .IsFriend()
+            .ShouldHaveAtLeastOneOf
+            .FirstName()
+            .Nickname();
+    }
+    
+    protected override void Execute(ReadOnlySpan<PeopleEntity> entities)
+    {
+        foreach (var friend in entities)
+        {
+            Console.WriteLine($"Hey {(friend.HasNickname ? friend.Nickname : friend.FirstName)}");
         }
     }
 }
 ```
 
-**Using in Unity**
+**Making it Work**
 
-Now that all of those elements are ready you will need to get it to work in unity.
+Now that you have all of your entities and systems ready we can modify
+our little console app to be a fully blown ECS Hello world example
+we deserve.
 
-The easiest way to do that is to create a ECSBootstrap mono behaviour script and set things up in there.
+First we need to get our domain and systems set up:
+
+``` C#
+using SRGEnt.Generated;
+
+var peopleDomain = new PeopleDomain(5);
+var formalGreeter = new FormalGreeter(peopleDomain);
+var casualGreeter = new CasualGreeter(peopleDomain);
+```
+
+After that we need to create some entities so that our systems have something to work on.
+
+``` C#
+void CreatePeople(PeopleDomain domain, int count)
+{
+    for (var i = 0; i < count; i++)
+    {
+        var person = domain.CreateEntity();
+        person.FirstName = "Bob";
+        person.LastName = "NotAFriend";
+    }
+}
+
+void CreateFriends(PeopleDomain domain, int count)
+{
+    for (var i = 0; i < count; i++)
+    {
+        var friend = domain.CreateEntity();
+        friend.IsFriend = true;
+        friend.Nickname = $"Best Bud Nr.{i + 1}";
+    }
+}
+
+CreatePeople(peopleDomain, 3);
+CreateFriends(peopleDomain, 2);
+```
+
+And finally we can execute our systems to see the glorious ECS at work.
+
+``` C#
+formalGreeter.Execute();
+casualGreeter.Execute();
+```
+
+After all of this your Program.cs should look somewhat like the one below 
+(I reorganised some code so it is not 100% copy paste of the above) 
+
+``` C#
+// See https://aka.ms/new-console-template for more information
+
+using SRGEnt.Generated;
+
+var peopleDomain = new PeopleDomain(5);
+var formalGreeter = new FormalGreeter(peopleDomain);
+var casualGreeter = new CasualGreeter(peopleDomain);
+
+CreatePeople(peopleDomain, 3);
+CreateFriends(peopleDomain, 2);
+
+formalGreeter.Execute();
+casualGreeter.Execute();
+
+// Method Definitions
+
+void CreatePeople(PeopleDomain domain, int count)
+{
+    for (var i = 0; i < count; i++)
+    {
+        var person = domain.CreateEntity();
+        person.FirstName = "Bob";
+        person.LastName = $"Not A Friend Nr.{i + 1}";
+    }
+}
+
+void CreateFriends(PeopleDomain domain, int count)
+{
+    for (var i = 0; i < count; i++)
+    {
+        var friend = domain.CreateEntity();
+        friend.IsFriend = true;
+        friend.Nickname = $"Best Bud Nr.{i + 1}";
+    }
+}
+```
+
+**If Using SRGEnt in Unity**
+
+If you are using unity all of the steps will be the same
+but you will need to modify your systems to use 
+``` C#
+Debug.Log($"GREETING");
+```
+instead of the
+``` C#
+Console.WriteLine($"GREETING");
+```
+and instead of the console app you will need to create
+a MonoBehaviour that will set things up and run them for you.
 
 Here is an example of how it could look.
 ``` C#
@@ -252,33 +402,51 @@ public class ECSBootstrap : MonoBehaviour
 {
     [Range(5,10)]
     [SerializeField] int _numberOfEntities = 5;
-    private MyFirstDomain _domain;
-    private MoveForwardSystem _moveForwardSystem;
+    private PeopleDomain _domain;
+    private FormalGreeter _formalGreeter;
+    private CasualGreeter _casualGreeter;
     
     private void Start()
     {
-        _domain = new MyFirstDomain(_numberOfEntities);
-        for(var i = 0; i < _numberOfEntities; i++)
-        {
-            var entity = _domain.CreateEntity();
-            entity.Speed = i + 1;
-        }
-        _moveForwardSystem = new MoveForwardSystem(_domain);
+        _domain = new PeopleDomain(_numberOfEntities);
+        _formalGreeter = new FormalGreeter(_domain);
+        _casualGreeter = new CasualGreeter(_domain);
+        
+        CreatePeople(3);
+        CreateFriends(2);
+        
+        _formalGreeter.Execute();
+        _casualGreeter.Execute();
     }
-
-    private void Update()
+    
+    private void CreatePeople(int count)
     {
-        _moveForwardSystem.Execute();
+        for (var i = 0; i < count; i++)
+        {
+            var person = _domain.CreateEntity();
+            person.FirstName = "Bob";
+            person.LastName = $"Not A Friend Nr.{i + 1}";
+        }
+    }
+    
+    private void CreateFriends(int count)
+    {
+        for (var i = 0; i < count; i++)
+        {
+            var friend = _domain.CreateEntity();
+            friend.IsFriend = true;
+            friend.Nickname = $"Best Bud Nr.{i + 1}";
+        }
     }
 }
 
 ```
-After you'll attach this mono behaviour to a scene in your project and hit play you should see a stream of debug log messages flowing down in your console.
+After you'll attach this mono behaviour to a scene in your project and hit play you should see a nice set of debug log messages greeting everyone.
 If you do then you are all set and ready to work with the library if not check below for some common problems.
 
-**How to inspect entities**
+**How to inspect entities in Unity**
 
-Entities are internally storred as Struct to help minimize garbage allocations when copying data around, unfortunately that means that it's not easy to inspect details of entities in Unity inspector as it doesn't play nice with structures.
+Entities are internally stored as Struct to help minimize garbage allocations when copying data around, unfortunately that means that it's not easy to inspect details of entities in Unity inspector as it doesn't play nice with structures.
 
 To help with viewing the state of your domains a custom inspector will be generated for every domains that you will define.
 
@@ -367,10 +535,10 @@ The MoveDivisibleByTwo system will get all the entities that have changed since 
 But if all of them had a position of 9 (divisible by 3 but not by 2)
 The changed flag would be removed after the system finishes processing and the MoveDivisibleByThree system would not receive any entities to operate on even though there are definitely entities that have position divisible by three.
 
-Because of that I would advise to use Reactive systems only for specific occasions where there will definitely be no collision and prefferably when their matcher is fairly unique.
+Because of that I would advise to use Reactive systems only for specific occasions where there will definitely be no collision and preferably when their matcher is fairly unique.
 Otherwise you might experience behaviours that will be hard to debug.
 
-I will try to provide some examples of when using reactive systems can be a good idea in the future but for now you will have to figure it out yourself.
+I will try to provide some examples of when using reactive systems can be a good idea in the future but for now you will have to figure it out yourself or reach out and I'll be happy to share my experience.
 
 **One additional note to remember regarding ReactiveSystems**
 
@@ -408,7 +576,7 @@ public interface ICharacterEntity
 
 public class MoveCharacters : CharacterExecuteSystem
 {
-   public MoveCharacters(MyFirstDomain domain) : base(domain)
+   public MoveCharacters(CharacterDomain domain) : base(domain)
     {}
 
     protected override void SetMatcher(ref CharacterMatcher matcher)
@@ -453,6 +621,8 @@ Below is a short list of the things that the generator will build for you when y
 
 ## Changelog
 
+### 0.5.5
+- Split the Unity specific generation into its own generator so that it can be easier removed if not needed.
 ### 0.5.4
 - Switched groups to not sort entities by default.
 - Added a flag to systems constructor to enable sorting if needed.
