@@ -21,7 +21,7 @@ class Build : NukeBuild
     [Solution(GenerateProjects = true)]
     readonly Solution Solution;
 
-    public static int Main () => Execute<Build>(x => x.Test);
+    public static int Main () => Execute<Build>(x => x.Get_Version);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
@@ -43,14 +43,6 @@ class Build : NukeBuild
                 settings.SetProcessWorkingDirectory(RootDirectory));
         });
 
-    Target Test => run => run
-        .DependsOn(Restore)
-        .Executes(() =>
-        {
-            DotNetTasks.DotNetTest(setting =>
-                setting.SetProcessWorkingDirectory(RootDirectory));
-        });
-
     Target Get_Version => _ => _
         .Executes(() =>
         {
@@ -63,7 +55,7 @@ class Build : NukeBuild
                 Assert.True(NuGetVersion.TryParseStrict(GithubRelease, out _version), "Failed to resolve package version.");
             }
 
-            _version = _version.Increment(NuGetVersionElement.Patch);
+            _version = _version.Increment(NuGetVersionElement.Minor);
             Log.Information($"Resolved version as: {_version}");
         });
 
@@ -74,8 +66,19 @@ class Build : NukeBuild
             DotNetTasks.DotNetTest(settings =>
                 settings.SetProjectFile(Solution.SRGEnt_Core_Tests.Path));
         });
+    
+    Target Build_Core => run => run
+        .DependsOn(Test_Core)
+        .Executes(() =>
+        {
+            DotNetTasks.DotNetBuild(settings => settings
+                .SetProcessWorkingDirectory(Solution.SRGEnt_Core.Directory)
+                .SetVersion(_version.ToNormalizedString())
+                .SetConfiguration(Configuration.Release));
+        }); 
+    
     Target Package_Core => run => run
-        .DependsOn(Test_Core, Get_Version)
+        .DependsOn(Build_Core, Get_Version)
         .Executes(() =>
         {
             DotNetTasks.DotNetPack(settings => settings
@@ -96,30 +99,24 @@ class Build : NukeBuild
             DotNetTasks.DotNetTest(settings => settings
                 .SetProjectFile(Solution.SRGEnt_Generator_Tests.Path));
         });
-
+    
     Target Package_Generator => run => run
         .DependsOn(Test_Generator, Get_Version)
         .Executes(() =>
         {
-            DotNetTasks.DotNetPack(settings => settings
+            //Using Build as the generator creates a package on build 
+            DotNetTasks.DotNetBuild(settings => settings
                 .SetProcessWorkingDirectory(Solution.SRGEnt_Generator.Directory)
                 .SetVersion(_version.ToNormalizedString())
                 .SetConfiguration(Configuration.Release));
         });
 
-    Target Publish_Generator => _ => _
-        .DependsOn(Package_Generator)
-        .Executes(() =>
-        { });
-
-    Target PackForNuGet => run => run
+    Target Pack_CoreComponents => run => run
         .DependsOn(Package_Core, Package_Generator);
 
-    Target PublishCorePackages => _ => _
-        .DependsOn(Publish_Core, Publish_Generator);
     
-    Target NuGet_Publish => run => run
-        .DependsOn(PublishCorePackages)
+    Target Pack_Wrapper => run => run
+        .DependsOn(Pack_CoreComponents)
         .Executes(() =>
         {
             DotNetTasks.DotNet($"add package SRGEnt.Core -v {_version.ToNormalizedString()}", Solution.SRGEnt.Directory);
