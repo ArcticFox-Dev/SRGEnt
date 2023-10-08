@@ -621,6 +621,9 @@ Below is a short list of the things that the generator will build for you when y
 
 ## Changelog
 
+### 0.6.0
+- Initial NuGet Release
+- Changed all generated class names to use Domain name instead of a mix of Domain and Entity
 ### 0.5.5
 - Split the Unity specific generation into its own generator so that it can be easier removed if not needed.
 ### 0.5.4

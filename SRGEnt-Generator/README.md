@@ -23,5 +23,5 @@ To learn how to use the library please refer to the documentation in [the reposi
 
 ## Changelog
 
-### 0.5.6
+### 0.6.0
 - Initial NuGet Release
