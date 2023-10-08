@@ -11,8 +11,8 @@ type (Domains create their own entity type so that more than one Domain can
 use the same EntityDefinition).
 
 Then there are 2 Systems (Execute system type as the reactive system
-still needs a bit of work to be 100% reliable) a RotatorSystem (which calculates
-the position of the entity based on it's angle) and the Renderer system which
+still needs a bit of work to be 100% reliable) a RotatorSystem (which increments
+the rotation of the entity based on time passed) and the Renderer system which
 draws all the entities to the screen in a single sprite batch.
 
 Lastly the ```SpinnerExampleGame.cs``` shows how to tie all of those together

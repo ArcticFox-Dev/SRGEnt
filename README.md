@@ -621,7 +621,8 @@ Below is a short list of the things that the generator will build for you when y
 - Bunch of interfaces you can use if you would want to create more generic systems that can work across domains as long as the entities have the right interfaces implemented.
 
 ## Changelog
-
+### Next Release
+- Added the examples folder and MonoGameExample
 ### 0.6.0
 - Initial NuGet Release
 - Changed all generated class names to use Domain name instead of a mix of Domain and Entity
