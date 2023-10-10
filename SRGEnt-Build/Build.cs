@@ -55,7 +55,7 @@ class Build : NukeBuild
                 Assert.True(NuGetVersion.TryParseStrict(GithubRelease, out _version), "Failed to resolve package version.");
             }
 
-            _version = _version.Increment(NuGetVersionElement.Minor);
+            _version = _version.Increment(NuGetVersionElement.Patch);
             Log.Information($"Resolved version as: {_version}");
         });
 
