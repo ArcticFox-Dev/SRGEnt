@@ -23,5 +23,7 @@ To learn how to use the library please refer to the documentation in [the reposi
 
 ## Changelog
 
+### 0.6.1
+- BugFix Issue #3 > Secondary Index Generator is missing System using statement
 ### 0.6.0
 - Initial NuGet Release
