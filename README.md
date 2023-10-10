@@ -13,8 +13,16 @@ SRGEnt (pronounced Sergeant) is a Simple, Roslyn Generator assisted, Entity Comp
 
 It is meant to be a no fuss, easy to use library, providing a simple (both to use and to learn) API for creating entities and systems.
 
-# Overview
+- [GettingStarted](#getting-started)
+  - [Installation](#installation)
+    - [DotNet](#dotnet-projects)
+    - [Unity](#unity)
+  - [SRGEnt HelloWorld](#srgent-helloworld)
+- [Examples](#examples)
+- [Closer Look](#closer-look)
+- [Changelog](#changelog)
 
+# Overview
 SRGEnt has been originally created as a library for Unity and was heavily inspired by another ECS framework called [Entitas](https://github.com/sschmid/Entitas-CSharp). 
 
 SRGEnt is not as mature as Entitas or some of the other libraries out there and I would probably not recommend using it for production just yet.
@@ -22,7 +30,6 @@ SRGEnt is not as mature as Entitas or some of the other libraries out there and 
 That said it is easy to set up and the minimal amount of boilerplate to write makes it ideal library for creating prototypes or for use at GameJams.
 
 ## Why create another ECS Framework ?
-
 There is indeed plenty other ECS frameworks/libraries for C#, but none of them were a 100% fit for me.
 
 Most of them either require a lot of boilerplate, are complicated to use, debug, or their code is hard to read. Others use tools that are hard to configure/use or are not easy to adapt to custom workflows.
@@ -35,11 +42,8 @@ When I decided to write SRGEnt I had two main objectives in mind.
 If either of those are on your mind when choosing libraries to work with give SRGEnt a go and let me know what you think in the discord channel.
 
 # Getting Started
-
 ## Installation
-
 ### DotNet Projects
-
 If you are working in a DotNet ecosystem that supports NuGet, importing SRGEnt should be as simple as adding any of your other packages.
 
 If you are using an IDE and it has a NuGet dependency manager just use that and search for SRGEnt. You only need to import the top level package as it will pull in all of it's dependencies and it will do so with the versions with which it was built and tested.
@@ -47,7 +51,6 @@ If you are using an IDE and it has a NuGet dependency manager just use that and 
 If you're a console dotnet dev then your trusty ```dotnet add package SRGEnt``` will get you all ready to go.
 
 ### Unity
-
 **Prerequisites:**
 
 Limiting Factors
@@ -87,8 +90,7 @@ If you can't wait for the next release and need it working now, hit me up on dis
 SRGEnt is now available via Open UPM making its installation almost as easy as downloading a native Unity package!!  
 I strongly recommend using it to add it to your project. Instructions can be found on [**this**](https://openupm.com/packages/net.srgent.generator/) page.
 
-##  Your first SRGEnt Code
-
+##  SRGEnt HelloWorld
 To test the library out I would suggest creating a simple Console app and pull in the SRGEnt dependency into it.
 
 After that we can get down to coding.
@@ -468,14 +470,16 @@ That said it should help with visualising the state of the domain outside of deb
 Those issues are quite high on the list of priorities for me to fix and I will update the documentation once the work is done.
 ```
 
-**Troubleshooting**
+# Examples
 
-Coming Soon
+## MonoGame Examples
+- [SpriteSpinner](Examples/MonoGame/README.md)
+## Unity Examples
+- Coming Soon
 
 # Closer Look
 
 ## SRGEnt Core
----
 
 SRGEnt Core provides the base types, attributes and interfaces that are used both in runtime code and by the code generator.
 
@@ -490,7 +494,6 @@ Groups are wrapper classes that the Domains use under the hood to provide you ac
 Matchers are classes that are generated for you so that you can define the constraints for those entities.
 
 ### Systems
----
 - **ExecuteSystem** is the bread and butter of the ECS world. They execute their code on all the entities that match their matcher criteria.
 - **ReactiveSystem** is a bit more complicated as it will execute its code only on entities that have changed since the last time entities the matching group have been requested.
 
@@ -545,7 +548,6 @@ I will try to provide some examples of when using reactive systems can be a good
 At the moment the system will get entities that had any changes happen to them since the last group entity request. That means that even if component that are not covered by the systems matcher have been added/removed/modified the entities will end up in the execution list.
 
 ### Matchers
----
 Matchers allow you to define the constraints on the entities you would want to receive in your systems.
 They provide three separate categories of constraint:
 - **Requires** constraint
@@ -605,7 +607,6 @@ public class MoveCharacters : CharacterExecuteSystem
 Matchers are generated as part of the generator processing so the base class present in the Core part of the library can help in understanding what is happening under the hood but will not have the API as presented in the example above.
 
 ## SRGEnt Generator
----
 
 SRGEnt Generator is the part that does all the heavy lifting behind the scenes but luckily for an average user it can remain a black box.
 
@@ -620,7 +621,9 @@ Below is a short list of the things that the generator will build for you when y
 - Bunch of interfaces you can use if you would want to create more generic systems that can work across domains as long as the entities have the right interfaces implemented.
 
 ## Changelog
-
+### 0.6.1
+- Added the examples folder and MonoGameExample
+- BugFix Issue #3 > Secondary Index Generator is missing System using statement
 ### 0.6.0
 - Initial NuGet Release
 - Changed all generated class names to use Domain name instead of a mix of Domain and Entity
