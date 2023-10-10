@@ -32,6 +32,7 @@ namespace SRGEnt.Generated
             {
                 var entitySubtype = component.IsFlag ? component.InterfaceName : $"{component.InterfaceFileName}<TComponentType>";
                 var componentInterfaceBody = $@"{GeneratorConstants.GeneratorHeader}
+using System;
 
 namespace SRGEnt.Generated
 {{
